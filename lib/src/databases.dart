@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
@@ -366,8 +367,9 @@ class Databases implements DatabasesInterface {
       int timeout = 60000,
       String view,
       int seqInterval}) async {
+    final docIdsJson = docIds != null ? json.encode(docIds) : null;
     final path =
-        '$dbName/_changes?${includeNonNullParam('doc_ids', docIds)}&conflicts=$conflicts&'
+        '$dbName/_changes?${includeNonNullParam('doc_ids', docIdsJson)}&conflicts=$conflicts&'
         'descending=$descending&feed=$feed&${includeNonNullParam('filter', filter)}&heartbeat=$heartbeat&'
         'include_docs=$includeDocs&attachments=$attachments&att_encoding_info=$attEncodingInfo&'
         '${includeNonNullParam('last-event-id', lastEventId)}&${includeNonNullParam('limit', limit)}&'
@@ -379,27 +381,42 @@ class Databases implements DatabasesInterface {
     switch (feed) {
       case 'longpoll':
         var strRes = await streamedRes.join();
-        strRes = '{"result": [$strRes';
+        strRes = '{"results": [$strRes';
         return Stream<DatabasesResponse>.fromFuture(
             Future<DatabasesResponse>.value(
                 DatabasesResponse.from(ApiResponse(jsonDecode(strRes)))));
 
       case 'continuous':
-        final mappedRes = streamedRes.map((v) => v.replaceAll('}\n{', '},\n{'));
-        return mappedRes.map((v) => DatabasesResponse.from(
-            ApiResponse(jsonDecode('{"result": [$v]}'))));
+        {
+          StreamSubscription sub;
+          StreamController<DatabasesResponse> controller;
+          controller = StreamController<DatabasesResponse>(
+            onListen: () {
+              sub = streamedRes.listen((String data) {
+                final hasData = data.trim().isNotEmpty;
+                if (hasData) {
+                  final result = ApiResponse(jsonDecode('{"results": [$data]}'));
+                  controller.add(DatabasesResponse.from(result));
+                }
+              }, onError: controller.addError, cancelOnError: true);
+            },
+            onCancel: () => sub.cancel(),
+          );
+          return controller.stream;
+        }
 
       case 'eventsource':
         final mappedRes = streamedRes
             .map((v) => v.replaceAll(RegExp('\n+data'), '},\n{data'))
             .map((v) => v.replaceAll('data', '"data"'))
             .map((v) => v.replaceAll('\nid', ',\n"id"'));
-        return mappedRes.map((v) => DatabasesResponse.from(
-            ApiResponse(jsonDecode('{"result": [{$v}]}'))));
+        return mappedRes.map((v) =>
+            DatabasesResponse.from(
+                ApiResponse(jsonDecode('{"results": [{$v}]}'))));
 
       default:
         var strRes = await streamedRes.join();
-        strRes = '{"result": [$strRes';
+        strRes = '{"results": [$strRes';
         return Stream<DatabasesResponse>.fromFuture(
             Future<DatabasesResponse>.value(
                 DatabasesResponse.from(ApiResponse(jsonDecode(strRes)))));
@@ -438,27 +455,42 @@ class Databases implements DatabasesInterface {
     switch (feed) {
       case 'longpoll':
         var strRes = await streamedRes.join();
-        strRes = '{"result": [$strRes';
+        strRes = '{"results": [$strRes';
         return Stream<DatabasesResponse>.fromFuture(
             Future<DatabasesResponse>.value(
                 DatabasesResponse.from(ApiResponse(jsonDecode(strRes)))));
 
       case 'continuous':
-        final mappedRes = streamedRes.map((v) => v.replaceAll('}\n{', '},\n{'));
-        return mappedRes.map((v) => DatabasesResponse.from(
-            ApiResponse(jsonDecode('{"result": [$v]}'))));
+        {
+          StreamSubscription sub;
+          StreamController<DatabasesResponse> controller;
+          controller = StreamController<DatabasesResponse>(
+            onListen: () {
+              sub = streamedRes.listen((String data) {
+                final hasData = data.trim().isNotEmpty;
+                if (hasData) {
+                  final result = ApiResponse(jsonDecode('{"results": [$data]}'));
+                  controller.add(DatabasesResponse.from(result));
+                }
+              }, onError: controller.addError, cancelOnError: true);
+            },
+            onCancel: () => sub.cancel(),
+          );
+          return controller.stream;
+        }
 
       case 'eventsource':
         final mappedRes = streamedRes
             .map((v) => v.replaceAll(RegExp('\n+data'), '},\n{data'))
             .map((v) => v.replaceAll('data', '"data"'))
             .map((v) => v.replaceAll('\nid', ',\n"id"'));
-        return mappedRes.map((v) => DatabasesResponse.from(
-            ApiResponse(jsonDecode('{"result": [{$v}]}'))));
+        return mappedRes.map((v) =>
+            DatabasesResponse.from(
+                ApiResponse(jsonDecode('{"results": [{$v}]}'))));
 
       default:
         var strRes = await streamedRes.join();
-        strRes = '{"result": [$strRes';
+        strRes = '{"results": [$strRes';
         return Stream<DatabasesResponse>.fromFuture(
             Future<DatabasesResponse>.value(
                 DatabasesResponse.from(ApiResponse(jsonDecode(strRes)))));
