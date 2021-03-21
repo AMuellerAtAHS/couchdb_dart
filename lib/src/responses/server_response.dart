@@ -5,65 +5,66 @@ import '../server.dart';
 /// Class that contains responses from `Server` class
 class ServerResponse {
   /// Creates instance of [ServerResponse]
-  ServerResponse({this.couchDbMessage,
-    this.uuid,
-    this.vendor,
-    this.version,
-    this.state,
-    this.results,
-    this.lastSeq,
-    this.allNodes,
-    this.clusterNodes,
-    this.history,
-    this.ok,
-    this.replicationIdVersion,
-    this.sessionId,
-    this.sourceLastSeq,
-    this.offset,
-    this.totalRows,
-    this.id,
-    this.database,
-    this.docId,
-    this.pid,
-    this.node,
-    this.source,
-    this.target,
-    this.startTime,
-    this.lastUpdate,
-    this.info,
-    this.errorCount,
-    this.fabric,
-    this.ddocCache,
+  ServerResponse({
+    this.couchDbMessage,
+    required this.uuid,
+    required this.vendor,
+    required this.version,
+    required this.state,
+    required this.results,
+    required this.lastSeq,
+    required this.allNodes,
+    required this.clusterNodes,
+    required this.history,
+    required this.ok,
+    required this.replicationIdVersion,
+    required this.sessionId,
+    required this.sourceLastSeq,
+    required this.offset,
+    required this.totalRows,
+    required this.id,
+    required this.database,
+    required this.docId,
+    required this.pid,
+    required this.node,
+    required this.source,
+    required this.target,
+    required this.startTime,
+    required this.lastUpdate,
+    required this.info,
+    required this.errorCount,
+    required this.fabric,
+    required this.ddocCache,
     this.couchDb,
-    this.pread,
-    this.couchReplicator,
-    this.mem3,
-    this.couchLog,
-    this.rexi,
-    this.globalChanges,
-    this.uptime,
-    this.memory,
-    this.runQueue,
-    this.etsTableCount,
-    this.contextSwitches,
-    this.reductions,
-    this.garbageCollectionCount,
-    this.wordsReclaimed,
-    this.ioInput,
-    this.ioOutput,
-    this.osProcCount,
-    this.staleProcCount,
-    this.processCount,
-    this.processLimit,
-    this.messageQueues,
-    this.internalReplicationJobs,
-    this.distribution,
-    this.status,
-    this.uuids,
-    this.list,
-    this.name,
-    this.roles,
-    this.userCtx});
+    required this.pread,
+    required this.couchReplicator,
+    required this.mem3,
+    required this.couchLog,
+    required this.rexi,
+    required this.globalChanges,
+    required this.uptime,
+    required this.memory,
+    required this.runQueue,
+    required this.etsTableCount,
+    required this.contextSwitches,
+    required this.reductions,
+    required this.garbageCollectionCount,
+    required this.wordsReclaimed,
+    required this.ioInput,
+    required this.ioOutput,
+    required this.osProcCount,
+    required this.staleProcCount,
+    required this.processCount,
+    required this.processLimit,
+    required this.messageQueues,
+    required this.internalReplicationJobs,
+    required this.distribution,
+    required this.status,
+    required this.uuids,
+    required this.list,
+    required this.name,
+    required this.roles,
+    required this.userCtx,});
 
   ServerResponse.from(ApiResponse response) : this(
     // [Server.nodeStats] returns JSON with `couchdb` field
@@ -74,24 +75,24 @@ class ServerResponse {
           : null,
       uuid: response.json['uuid'] as String,
       vendor: (response.json['vendor'] as Map<String, Object>)
-          ?.map((k, e) => MapEntry<String, String>(k, e as String)),
+          .map((k, e) => MapEntry<String, String>(k, e as String)),
       version: response.json['version'] as String,
       state: response.json['state'] as String,
       results: (response.json['results'] as List<Object>)
-          ?.map((o) =>
+          .map((o) =>
           (o as Map<String, Object>)
-              ?.map((k, e) => MapEntry<String, String>(k, e as String)))
-          ?.toList(),
+              .map((k, e) => MapEntry<String, String>(k, e as String)))
+          .toList(),
       lastSeq: response.json['last_seq'] as String,
       allNodes: (response.json['all_nodes'] as List<Object>)
-          ?.map((v) => v as String)
-          ?.toList(),
+          .map((v) => v as String)
+          .toList(),
       clusterNodes: (response.json['cluster_nodes'] as List<Object>)
-          ?.map((v) => v as String)
-          ?.toList(),
+          .map((v) => v as String)
+          .toList(),
       history: (response.json['results'] as List<Object>)
-          ?.map((o) => o as Map<String, Object>)
-          ?.toList(),
+          .map((o) => o as Map<String, Object>)
+          .toList(),
       ok: response.json['ok'] as bool,
       replicationIdVersion: response.json['replication_id_version'] as int,
       sessionId: response.json['session_id'] as String,
@@ -107,43 +108,45 @@ class ServerResponse {
       target: response.json['target'] as String,
       startTime: response.json['start_time'] as String,
       lastUpdate: response.json['last_update'] as String,
-      info: response.json['info'],
+      info: response.json['info'] as Object,
       errorCount: response.json['error_count'] as int,
-      fabric: (response.json['fabric'] as Map<String, Object>)?.map((k, v) =>
+      fabric: (response.json['fabric'] as Map<String, Object>).map((k, v) =>
           MapEntry<String, Map<String, Map<String, Object>>>(
               k,
-              (v as Map<String, Object>)?.map(
-                      (k, v) => MapEntry<String, Map<String, Object>>(
-                      k, v as Map<String, Object>)))),
-      ddocCache: (response.json['ddoc_cache'] as Map<String, Object>)?.map((k,
+              (v as Map<String, Object>).map(
+                      (k, v) =>
+                      MapEntry<String, Map<String, Object>>(
+                          k, v as Map<String, Object>)))),
+      ddocCache: (response.json['ddoc_cache'] as Map<String, Object>).map((k,
           v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
       couchDb: response.json['couchdb'] is Map
           ? (response.json['couchdb'] as Map<String, Object>)?.map((k, v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>))
           : null,
-      pread: (response.json['pread'] as Map<String, Object>)?.map((k, v) =>
+      pread: (response.json['pread'] as Map<String, Object>).map((k, v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
       couchReplicator: (response.json['couch_replicator'] as Map<String,
-          Object>)?.map((k, v) =>
+          Object>).map((k, v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
-      mem3: (response.json['mem3'] as Map<String, Object>)?.map((k, v) =>
+      mem3: (response.json['mem3'] as Map<String, Object>).map((k, v) =>
           MapEntry<String, Map<String, Map<String, Object>>>(k,
-              (v as Map<String, Object>)?.map((k, v) =>
+              (v as Map<String, Object>).map((k, v) =>
                   MapEntry<String, Map<String, Object>>(
                       k, v as Map<String, Object>)))),
-      couchLog: (response.json['couch_log'] as Map<String, Object>)?.map((k,
-          v) => MapEntry<String, Map<String, Map<String, Object>>>(k,
-          (v as Map<String, Object>)?.map((k, v) =>
-              MapEntry<String, Map<String, Object>>(
-                  k, v as Map<String, Object>)))),
-      rexi: (response.json['rexi'] as Map<String, Object>)?.map((k, v) =>
+      couchLog: (response.json['couch_log'] as Map<String, Object>).map((k,
+          v) =>
+          MapEntry<String, Map<String, Map<String, Object>>>(k,
+              (v as Map<String, Object>).map((k, v) =>
+                  MapEntry<String, Map<String, Object>>(
+                      k, v as Map<String, Object>)))),
+      rexi: (response.json['rexi'] as Map<String, Object>).map((k, v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
       globalChanges: (response.json['global_changes'] as Map<String, Object>)
-          ?.map((k, v) =>
+          .map((k, v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
       uptime: response.json['uptime'] as int,
-      memory: (response.json['memory'] as Map<String, Object>)?.map((k, v) =>
+      memory: (response.json['memory'] as Map<String, Object>).map((k, v) =>
           MapEntry<String, int>(k, v as int)),
       runQueue: response.json['run_queue'] as int,
       etsTableCount: response.json['ets_table_count'] as int,
@@ -163,19 +166,19 @@ class ServerResponse {
       distribution: response.json['distribution'] as Map<String, Object>,
       status: response.json['status'] as String,
       uuids: (response.json['uuids'] as List<Object>)
-          ?.map((e) => e as String)
-          ?.toList(),
+          .map((e) => e as String)
+          .toList(),
       list: response.json['list'] as List<Object>,
       name: response.json['name'] as String,
       roles: (response.json['roles'] as List<Object>)
-          ?.map((v) => v as String)
-          ?.toList(),
+          .map((v) => v as String)
+          .toList(),
       userCtx: response.json['userCtx'] as Map<String, Object>);
 
   /// Welcome message from CouchDB
   ///
   /// Provided by [Server.couchDbInfo]
-  final String couchDbMessage;
+  final String? couchDbMessage;
 
   /// UUID of database
   final String uuid;
@@ -267,7 +270,7 @@ class ServerResponse {
   /// Primary CouchDB database operations info
   ///
   /// Produced by [Server.nodeStats]
-  final Map<String, Map<String, Object>> couchDb;
+  final Map<String, Map<String, Object>>? couchDb;
 
   /// CouchDB file-related exceptions info
   final Map<String, Map<String, Object>> pread;

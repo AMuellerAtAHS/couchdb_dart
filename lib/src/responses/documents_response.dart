@@ -5,37 +5,40 @@ import '../documents.dart';
 /// Class that contains responses from `Documents` class
 class DocumentsResponse {
   /// Creates instance of [DocumentsResponse]
-  DocumentsResponse(
-      {this.doc,
-      this.ok,
-      this.id,
-      this.rev,
-      this.attachment,
-      this.conflicts,
-      this.deleted,
-      this.deletedConflicts,
-      this.localSeq,
-      this.revsInfo,
-      this.revisions});
+  DocumentsResponse({
+    required this.doc,
+    required this.ok,
+    required this.id,
+    required this.rev,
+    this.attachment,
+    required this.conflicts,
+    required this.deleted,
+    required this.deletedConflicts,
+    required this.localSeq,
+    required this.revsInfo,
+    required this.revisions,
+  });
 
-  DocumentsResponse.from(ApiResponse response) : this(
-      doc: response.json,
-      ok: response.json['ok'] as bool,
-      id: (response.json['_id'] ?? response.json['id']) as String,
-      rev: (response.json['_rev'] ?? response.json['rev']) as String,
-      attachment: response.json['_attachments'] ?? response.raw,
-      conflicts: (response.json['_conflicts'] as List<Object>)
-          ?.map((e) => e as String)
-          ?.toList(),
-      deleted: response.json['_deleted'] as bool,
-      deletedConflicts: (response.json['_deleted_conflicts'] as List<Object>)
-          ?.map((e) => e as String)
-          ?.toList(),
-      localSeq: response.json['_local_seq'] as String,
-      revsInfo: (response.json['_revs_info'] as List<Object>)
-          ?.map((e) => e as Map<String, Object>)
-          ?.toList(),
-      revisions: response.json['_revisions'] as Map<String, Object>);
+  DocumentsResponse.from(ApiResponse response)
+      : this(
+            doc: response.json,
+            ok: response.json['ok'] as bool,
+            id: (response.json['_id'] ?? response.json['id']) as String,
+            rev: (response.json['_rev'] ?? response.json['rev']) as String,
+            attachment: response.json['_attachments'] ?? response.raw,
+            conflicts: (response.json['_conflicts'] as List<Object>)
+                .map((e) => e as String)
+                .toList(),
+            deleted: response.json['_deleted'] as bool,
+            deletedConflicts:
+                (response.json['_deleted_conflicts'] as List<Object>)
+                    .map((e) => e as String)
+                    .toList(),
+            localSeq: response.json['_local_seq'] as String,
+            revsInfo: (response.json['_revs_info'] as List<Object>)
+                .map((e) => e as Map<String, Object>)
+                .toList(),
+            revisions: response.json['_revisions'] as Map<String, Object>);
 
   /// Holds document object
   ///
@@ -65,7 +68,7 @@ class DocumentsResponse {
   final String rev;
 
   /// Attachment's raw data
-  final Object attachment;
+  final Object? attachment;
 
   /// List of conflicted revisions
   final List<String> conflicts;

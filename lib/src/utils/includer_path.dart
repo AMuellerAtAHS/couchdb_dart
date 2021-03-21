@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+// todo (20th March 2021) review whether or not these are needed anymore
+
 /// Method for including only non-null parameter to path
 String includeNonNullParam(String name, Object value) =>
     value != null ? '$name=$value' : '';

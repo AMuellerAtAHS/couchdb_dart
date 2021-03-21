@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
-import 'interfaces/client_interface.dart';
-import 'responses/databases_response.dart';
-import 'responses/api_response.dart';
 import 'exceptions/couchdb_exception.dart';
-import 'utils/includer_path.dart';
+import 'interfaces/client_interface.dart';
 import 'interfaces/databases_interface.dart';
+import 'responses/api_response.dart';
+import 'responses/databases_response.dart';
+import 'utils/includer_path.dart';
 
 /// Class that implements methods for interacting with entire database
 /// in CouchDB
@@ -28,16 +26,18 @@ class Databases implements DatabasesInterface {
       e.response = ApiResponse(<String, String>{
         'error': 'Not found',
         'reason': 'Database doesn\'t exist.'
-      }).errorResponse();
+      }).errorResponse()!;
       rethrow;
     }
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<DatabasesResponse> query(String dbName, String dbDoc, String dbView, List<String> keys) async { 
+  Future<DatabasesResponse> query(
+      String dbName, String dbDoc, String dbView, List<String> keys) async {
     final body = <String, List<String>>{'keys': keys};
-    var result = await _client.post('$dbName/_design/$dbDoc/_view/$dbView', body: body);
+    var result =
+        await _client.post('$dbName/_design/$dbDoc/_view/$dbView', body: body);
     return DatabasesResponse.from(result);
   }
 
@@ -61,23 +61,22 @@ class Databases implements DatabasesInterface {
     }
 
     final path = '$dbName?q=$q';
-    ApiResponse result = await _client.put(path);
+    final result = await _client.put(path);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> deleteDb(String dbName) async {
-    ApiResponse result = await _client.delete(dbName);
+    final result = await _client.delete(dbName);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> createDocIn(String dbName, Map<String, Object> doc,
-      {String batch, Map<String, String> headers}) async {
+      {required String batch, Map<String, String> headers = const {}}) async {
     final path = '$dbName${includeNonNullParam('?batch', batch)}';
 
-    ApiResponse result =
-        await _client.post(path, body: doc, reqHeaders: headers);
+    final result = await _client.post(path, body: doc, reqHeaders: headers);
     return DatabasesResponse.from(result);
   }
 
@@ -85,60 +84,60 @@ class Databases implements DatabasesInterface {
   Future<DatabasesResponse> allDocs(String dbName,
       {bool conflicts = false,
       bool descending = false,
-      Object endKey,
-      String endKeyDocId,
+      Object endKey = '',
+      String endKeyDocId = '',
       bool group = false,
-      int groupLevel,
+      int? groupLevel,
       bool includeDocs = false,
       bool attachments = false,
       bool altEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object key,
-      List<Object> keys,
-      int limit,
-      bool reduce,
-      int skip,
+      Object? key,
+      List<Object> keys = const [],
+      int? limit,
+      bool? reduce,
+      int? skip,
       bool sorted = true,
       bool stable = false,
-      String stale,
-      Object startKey,
-      String startKeyDocId,
-      String update,
+      String? stale,
+      Object? startKey,
+      String? startKeyDocId,
+      String? update,
       bool updateSeq = false}) async {
-
-    ApiResponse result = await _client.get('$dbName/_all_docs'
-        '?conflicts=$conflicts'
-        '&descending=$descending'
-        '&${includeNonNullJsonParam("endkey", endKey)}'
-        '&${includeNonNullParam("endkey_docid", endKeyDocId)}'
-        '&group=$group'
-        '&${includeNonNullParam("group_level", groupLevel)}'
-        '&include_docs=$includeDocs'
-        '&attachments=$attachments'
-        '&alt_encoding_info=$altEncodingInfo'
-        '&inclusive_end=$inclusiveEnd'
-        '&${includeNonNullJsonParam("key", key)}'
-        '&${includeNonNullJsonParam("keys", keys)}'
-        '&${includeNonNullParam("limit", limit)}'
-        '&${includeNonNullParam("reduce", reduce)}'
-        '&${includeNonNullParam("skip", skip)}'
-        '&sorted=$sorted'
-        '&stable=$stable'
-        '&${includeNonNullParam("stale", stale)}'
-        '&${includeNonNullJsonParam("startkey", startKey)}'
-        '&${includeNonNullParam("startkey_docid", startKeyDocId)}'
-        '&${includeNonNullParam("update", update)}'
-        '&update_seq=$updateSeq');
+    final result = await _client.get(
+      '$dbName/_all_docs'
+      '?conflicts=$conflicts'
+      '&descending=$descending'
+      '&endkey=$endKey'
+      '&endkey_docid=$endKeyDocId'
+      '&group=$group'
+      '&group_level=${groupLevel ?? ''}'
+      '&include_docs=$includeDocs'
+      '&attachments=$attachments'
+      '&alt_encoding_info=$altEncodingInfo'
+      '&inclusive_end=$inclusiveEnd'
+      '&key=${key ?? ''}'
+      '&keys=$keys'
+      '&limit=$limit'
+      '&reduce=${reduce ?? ''}'
+      '&skip=$skip'
+      '&sorted=$sorted'
+      '&stable=$stable'
+      '&stale=${stale ?? ''}'
+      '&startkey=${startKey ?? ''}'
+      '&startkey_docid=${startKeyDocId ?? ''}'
+      '&update=${update ?? ''}'
+      '&update_seq=$updateSeq',
+    );
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> docsByKeys(String dbName,
-      {List<String> keys}) async {
+      {List<String>? keys}) async {
+    final body = <String, List<String>?>{'keys': keys};
 
-    final body = <String, List<String>>{'keys': keys};
-
-    ApiResponse result = keys == null
+    final result = keys == null
         ? await _client.post('$dbName/_all_docs')
         : await _client.post('$dbName/_all_docs', body: body);
     return DatabasesResponse.from(result);
@@ -148,26 +147,33 @@ class Databases implements DatabasesInterface {
   Future<DatabasesResponse> allDesignDocs(String dbName,
       {bool conflicts = false,
       bool descending = false,
-      String endKey,
-      String endKeyDocId,
+      String? endKey,
+      String? endKeyDocId,
       bool includeDocs = false,
       bool inclusiveEnd = true,
-      String key,
-      String keys,
-      int limit,
+      String? key,
+      String? keys,
+      int? limit,
       int skip = 0,
-      String startKey,
-      String startKeyDocId,
+      String? startKey,
+      String? startKeyDocId,
       bool updateSeq = false}) async {
-    final path =
-        '$dbName/_design_docs?conflicts=$conflicts&descending=$descending&'
-        '${includeNonNullParam('endkey', endKey)}&${includeNonNullParam('endkey_docid', endKeyDocId)}&'
-        'include_docs=$includeDocs&inclusive_end=$inclusiveEnd&${includeNonNullParam('key', key)}&'
-        '${includeNonNullParam('keys', keys)}&${includeNonNullParam('limit', limit)}&'
-        'skip=$skip&${includeNonNullParam('startkey', startKey)}&${includeNonNullParam('startkey_docid', startKeyDocId)}&'
-        'update_seq=$updateSeq';
+    final path = '$dbName/_design_docs?'
+        'conflicts=$conflicts'
+        '&descending=$descending'
+        '&endkey=${endKey ?? ''}'
+        '&endkey_docid=${endKeyDocId ?? ''}'
+        '&include_docs=$includeDocs'
+        '&inclusive_end=$inclusiveEnd'
+        '&key=${key ?? ''}'
+        '&keys=${keys ?? ''}'
+        '&limit=${limit ?? ''}'
+        '&skip=$skip'
+        '&startkey=${startKey ?? ''}'
+        '&startkey_docid=${startKeyDocId ?? ''}'
+        '&update_seq=$updateSeq';
 
-    ApiResponse result = await _client.get(path);
+    final result = await _client.get(path);
     return DatabasesResponse.from(result);
   }
 
@@ -175,7 +181,7 @@ class Databases implements DatabasesInterface {
   Future<DatabasesResponse> designDocsByKeys(
       String dbName, List<String> keys) async {
     final body = <String, List<String>>{'keys': keys};
-    ApiResponse result = await _client.post('$dbName/_design_docs', body: body);
+    final result = await _client.post('$dbName/_design_docs', body: body);
     return DatabasesResponse.from(result);
   }
 
@@ -183,24 +189,23 @@ class Databases implements DatabasesInterface {
   Future<DatabasesResponse> queriesDocsFrom(
       String dbName, List<Map<String, Object>> queries) async {
     final body = <String, List<Map<String, Object>>>{'queries': queries};
-    ApiResponse result =
-        await _client.post('$dbName/_all_docs/queries', body: body);
+    final result = await _client.post('$dbName/_all_docs/queries', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> bulkDocs(String dbName, List<Object> docs,
-      {@required bool revs}) async {
+      {required bool revs}) async {
     final body = <String, List<Object>>{'docs': docs};
-    ApiResponse result = await _client.post('$dbName?revs=$revs', body: body);
+    final result = await _client.post('$dbName?revs=$revs', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> insertBulkDocs(String dbName, List<Object> docs,
-      {bool newEdits = true, Map<String, String> headers}) async {
+      {bool newEdits = true, Map<String, String> headers = const {}}) async {
     final body = <String, Object>{'docs': docs, 'new_edits': newEdits};
-    ApiResponse result = await _client.post('$dbName/_bulk_docs',
+    final result = await _client.post('$dbName/_bulk_docs',
         body: body, reqHeaders: headers);
     return DatabasesResponse.from(result);
   }
@@ -208,17 +213,16 @@ class Databases implements DatabasesInterface {
   @override
   Future<DatabasesResponse> find(String dbName, Map<String, Object> selector,
       {int limit = 25,
-      int skip,
-      List<Object> sort,
-      List<String> fields,
-      Object useIndex,
+      int? skip,
+      List<Object>? sort,
+      List<String>? fields,
+      Object? useIndex,
       int r = 1,
-      String bookmark,
+      String bookmark = '',
       bool update = true,
-      bool stable,
+      bool? stable,
       String stale = 'false',
       bool executionStats = false}) async {
-
     final body = <String, Object>{
       'selector': selector,
       'limit': limit,
@@ -244,18 +248,19 @@ class Databases implements DatabasesInterface {
       body['stable'] = stable;
     }
 
-    ApiResponse result = await _client.post('$dbName/_find', body: body);
+    final result = await _client.post('$dbName/_find', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<DatabasesResponse> createIndexIn(String dbName,
-      {@required List<String> indexFields,
-      String ddoc,
-      String name,
-      String type = 'json',
-      Map<String, Object> partialFilterSelector}) async {
-
+  Future<DatabasesResponse> createIndexIn(
+    String dbName, {
+    required List<String> indexFields,
+    String? ddoc,
+    String? name,
+    String type = 'json',
+    Map<String, Object>? partialFilterSelector,
+  }) async {
     final body = <String, Object>{
       'index': <String, List<String>>{'fields': indexFields},
       'type': type
@@ -270,38 +275,39 @@ class Databases implements DatabasesInterface {
       body['partial_filter_selector'] = partialFilterSelector;
     }
 
-    ApiResponse result = await _client.post('$dbName/_index', body: body);
+    final result = await _client.post('$dbName/_index', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> indexesAt(String dbName) async {
-    ApiResponse result = await _client.get('$dbName/_index');
+    final result = await _client.get('$dbName/_index');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> deleteIndexIn(
       String dbName, String designDoc, String name) async {
-    ApiResponse result =
-        await _client.delete('$dbName/_index/$designDoc/json/$name');
+    final result = await _client.delete('$dbName/_index/$designDoc/json/$name');
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<DatabasesResponse> explain(String dbName, Map<String, Object> selector,
-      {int limit = 25,
-      int skip,
-      List<Object> sort,
-      List<String> fields,
-      Object useIndex,
-      int r = 1,
-      String bookmark,
-      bool update = true,
-      bool stable,
-      String stale = 'false',
-      bool executionStats = false}) async {
-
+  Future<DatabasesResponse> explain(
+    String dbName,
+    Map<String, Object> selector, {
+    int limit = 25,
+    int? skip,
+    List<Object>? sort,
+    List<String>? fields,
+    Object? useIndex,
+    int r = 1,
+    String bookmark = '',
+    bool update = true,
+    bool? stable,
+    String stale = 'false',
+    bool executionStats = false,
+  }) async {
     final body = <String, Object>{
       'selector': selector,
       'limit': limit,
@@ -327,54 +333,66 @@ class Databases implements DatabasesInterface {
       body['stable'] = stable;
     }
 
-    ApiResponse result = await _client.post('$dbName/_explain', body: body);
+    final result = await _client.post('$dbName/_explain', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> shards(String dbName) async {
-    ApiResponse result = await _client.get('$dbName/_shards');
+    final result = await _client.get('$dbName/_shards');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> shard(String dbName, String docId) async {
-    ApiResponse result = await _client.get('$dbName/_shards/$docId');
+    final result = await _client.get('$dbName/_shards/$docId');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> synchronizeShards(String dbName) async {
-    ApiResponse result = await _client.post('$dbName/_sync_shards');
+    final result = await _client.post('$dbName/_sync_shards');
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<Stream<DatabasesResponse>> changesIn(String dbName,
-      {List<String> docIds,
-      bool conflicts = false,
-      bool descending = false,
-      String feed = 'normal',
-      String filter,
-      int heartbeat = 60000,
-      bool includeDocs = false,
-      bool attachments = false,
-      bool attEncodingInfo = false,
-      int lastEventId,
-      int limit,
-      String since = '0',
-      String style = 'main_only',
-      int timeout = 60000,
-      String view,
-      int seqInterval}) async {
+  Future<Stream<DatabasesResponse>> changesIn(
+    String dbName, {
+    List<String>? docIds,
+    bool conflicts = false,
+    bool descending = false,
+    String feed = 'normal',
+    String? filter,
+    int heartbeat = 60000,
+    bool includeDocs = false,
+    bool attachments = false,
+    bool attEncodingInfo = false,
+    int? lastEventId,
+    int? limit,
+    String since = '0',
+    String style = 'main_only',
+    int timeout = 60000,
+    String? view,
+    int? seqInterval,
+  }) async {
     final docIdsJson = docIds != null ? json.encode(docIds) : null;
-    final path =
-        '$dbName/_changes?${includeNonNullParam('doc_ids', docIdsJson)}&conflicts=$conflicts&'
-        'descending=$descending&feed=$feed&${includeNonNullParam('filter', filter)}&heartbeat=$heartbeat&'
-        'include_docs=$includeDocs&attachments=$attachments&att_encoding_info=$attEncodingInfo&'
-        '${includeNonNullParam('last-event-id', lastEventId)}&${includeNonNullParam('limit', limit)}&'
-        'since=$since&style=$style&timeout=$timeout&${includeNonNullParam('view', view)}&'
-        '${includeNonNullParam('seq_interval', seqInterval)}';
+    final path = '$dbName/_changes?'
+        'doc_ids=${docIdsJson ?? ''}'
+        '&conflicts=$conflicts&'
+        'descending=$descending'
+        '&feed=$feed'
+        '&filter=$filter'
+        '&heartbeat=$heartbeat'
+        '&include_docs=$includeDocs'
+        '&attachments=$attachments'
+        '&att_encoding_info=$attEncodingInfo'
+        '&last-event-id=${lastEventId ?? ''}'
+        '&limit=${limit ?? ''}'
+        '&since=$since'
+        '&style=$style'
+        '&timeout=$timeout'
+        '&view=${view ?? ''}'
+        '&seq_interval=${seqInterval ?? ''}';
 
     final streamedRes = await _client.streamed('get', path);
 
@@ -388,14 +406,15 @@ class Databases implements DatabasesInterface {
 
       case 'continuous':
         {
-          StreamSubscription sub;
-          StreamController<DatabasesResponse> controller;
+          late StreamSubscription sub;
+          late StreamController<DatabasesResponse> controller;
           controller = StreamController<DatabasesResponse>(
             onListen: () {
               sub = streamedRes.listen((String data) {
                 final hasData = data.trim().isNotEmpty;
                 if (hasData) {
-                  final result = ApiResponse(jsonDecode('{"results": [$data]}'));
+                  final result =
+                      ApiResponse(jsonDecode('{"results": [$data]}'));
                   controller.add(DatabasesResponse.from(result));
                 }
               }, onError: controller.addError, cancelOnError: true);
@@ -410,9 +429,8 @@ class Databases implements DatabasesInterface {
             .map((v) => v.replaceAll(RegExp('\n+data'), '},\n{data'))
             .map((v) => v.replaceAll('data', '"data"'))
             .map((v) => v.replaceAll('\nid', ',\n"id"'));
-        return mappedRes.map((v) =>
-            DatabasesResponse.from(
-                ApiResponse(jsonDecode('{"results": [{$v}]}'))));
+        return mappedRes.map((v) => DatabasesResponse.from(
+            ApiResponse(jsonDecode('{"results": [{$v}]}'))));
 
       default:
         var strRes = await streamedRes.join();
@@ -424,31 +442,42 @@ class Databases implements DatabasesInterface {
   }
 
   @override
-  Future<Stream<DatabasesResponse>> postChangesIn(String dbName,
-      {List<String> docIds,
-      bool conflicts = false,
-      bool descending = false,
-      String feed = 'normal',
-      String filter = '_doc_ids',
-      int heartbeat = 60000,
-      bool includeDocs = false,
-      bool attachments = false,
-      bool attEncodingInfo = false,
-      int lastEventId,
-      int limit,
-      String since = '0',
-      String style = 'main_only',
-      int timeout = 60000,
-      String view,
-      int seqInterval}) async {
-    final path = '$dbName/_changes?conflicts=$conflicts&'
-        'descending=$descending&feed=$feed&filter=$filter&heartbeat=$heartbeat&'
-        'include_docs=$includeDocs&attachments=$attachments&att_encoding_info=$attEncodingInfo&'
-        '${includeNonNullParam('last-event-id', lastEventId)}&${includeNonNullParam('limit', limit)}&'
-        'since=$since&style=$style&timeout=$timeout&${includeNonNullParam('view', view)}&'
-        '${includeNonNullParam('seq_interval', seqInterval)}';
+  Future<Stream<DatabasesResponse>> postChangesIn(
+    String dbName, {
+    List<String>? docIds,
+    bool conflicts = false,
+    bool descending = false,
+    String feed = 'normal',
+    String filter = '_doc_ids',
+    int heartbeat = 60000,
+    bool includeDocs = false,
+    bool attachments = false,
+    bool attEncodingInfo = false,
+    int? lastEventId,
+    int? limit,
+    String since = '0',
+    String style = 'main_only',
+    int timeout = 60000,
+    String? view,
+    int? seqInterval,
+  }) async {
+    final path = '$dbName/_changes?'
+        'conflicts=$conflicts'
+        '&descending=$descending'
+        '&feed=$feed'
+        '&filter=$filter&heartbeat=$heartbeat&'
+        'include_docs=$includeDocs'
+        '&attachments=$attachments'
+        '&att_encoding_info=$attEncodingInfo'
+        '&last-event-id=${lastEventId ?? ''}'
+        '&limit=${limit ?? ''}'
+        '&since=$since'
+        '&style=$style'
+        '&timeout=$timeout'
+        '&view=${view ?? ''}'
+        '&seq_interval=${seqInterval ?? ''}';
 
-    final body = <String, List<String>>{'doc_ids': docIds};
+    final body = <String, List<String>>{'doc_ids': docIds ?? []};
 
     final streamedRes = await _client.streamed('post', path, body: body);
 
@@ -462,14 +491,15 @@ class Databases implements DatabasesInterface {
 
       case 'continuous':
         {
-          StreamSubscription sub;
-          StreamController<DatabasesResponse> controller;
+          late StreamSubscription sub;
+          late StreamController<DatabasesResponse> controller;
           controller = StreamController<DatabasesResponse>(
             onListen: () {
               sub = streamedRes.listen((String data) {
                 final hasData = data.trim().isNotEmpty;
                 if (hasData) {
-                  final result = ApiResponse(jsonDecode('{"results": [$data]}'));
+                  final result =
+                      ApiResponse(jsonDecode('{"results": [$data]}'));
                   controller.add(DatabasesResponse.from(result));
                 }
               }, onError: controller.addError, cancelOnError: true);
@@ -484,9 +514,8 @@ class Databases implements DatabasesInterface {
             .map((v) => v.replaceAll(RegExp('\n+data'), '},\n{data'))
             .map((v) => v.replaceAll('data', '"data"'))
             .map((v) => v.replaceAll('\nid', ',\n"id"'));
-        return mappedRes.map((v) =>
-            DatabasesResponse.from(
-                ApiResponse(jsonDecode('{"results": [{$v}]}'))));
+        return mappedRes.map((v) => DatabasesResponse.from(
+            ApiResponse(jsonDecode('{"results": [{$v}]}'))));
 
       default:
         var strRes = await streamedRes.join();
@@ -499,59 +528,59 @@ class Databases implements DatabasesInterface {
 
   @override
   Future<DatabasesResponse> compact(String dbName) async {
-    ApiResponse result = await _client.post('$dbName/_compact');
+    final result = await _client.post('$dbName/_compact');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> compactViewIndexesWith(
       String dbName, String ddocName) async {
-    ApiResponse result = await _client.post('$dbName/_compact/$ddocName');
+    final result = await _client.post('$dbName/_compact/$ddocName');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> ensureFullCommit(String dbName) async {
-    ApiResponse result = await _client.post('$dbName/_ensure_full_commit');
+    final result = await _client.post('$dbName/_ensure_full_commit');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> viewCleanup(String dbName) async {
-    ApiResponse result = await _client.post('$dbName/_view_cleanup');
+    final result = await _client.post('$dbName/_view_cleanup');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> securityOf(String dbName) async {
-    ApiResponse result = await _client.get('$dbName/_security');
+    final result = await _client.get('$dbName/_security');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> setSecurityFor(
       String dbName, Map<String, Map<String, List<String>>> security) async {
-    ApiResponse result = await _client.put('$dbName/_security', body: security);
+    final result = await _client.put('$dbName/_security', body: security);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> purge(
       String dbName, Map<String, List<String>> docs) async {
-    ApiResponse result = await _client.post('$dbName/_purge', body: docs);
+    final result = await _client.post('$dbName/_purge', body: docs);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> purgedInfosLimit(String dbName) async {
-    ApiResponse result = await _client.get('$dbName/_purged_infos_limit');
+    final result = await _client.get('$dbName/_purged_infos_limit');
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> setPurgedInfosLimit(
       String dbName, int limit) async {
-    ApiResponse result =
+    final result =
         await _client.put('$dbName/_purged_infos_limit', body: limit);
     return DatabasesResponse.from(result);
   }
@@ -559,7 +588,7 @@ class Databases implements DatabasesInterface {
   @override
   Future<DatabasesResponse> missingRevs(
       String dbName, Map<String, List<String>> revs) async {
-    ApiResponse result =
+    final result =
         await _client.post('$dbName/_missing_revs', body: revs);
     return DatabasesResponse.from(result);
   }
@@ -567,13 +596,13 @@ class Databases implements DatabasesInterface {
   @override
   Future<DatabasesResponse> revsDiff(
       String dbName, Map<String, List<String>> revs) async {
-    ApiResponse result = await _client.post('$dbName/_revs_diff', body: revs);
+    final result = await _client.post('$dbName/_revs_diff', body: revs);
     return DatabasesResponse.from(result);
   }
 
   @override
   Future<DatabasesResponse> revsLimitOf(String dbName) async {
-    ApiResponse result = await _client.get('$dbName/_revs_limit');
+    final result = await _client.get('$dbName/_revs_limit');
     return DatabasesResponse.from(result);
   }
 
@@ -581,7 +610,7 @@ class Databases implements DatabasesInterface {
   /// even after compaction has occurred
   @override
   Future<DatabasesResponse> setRevsLimit(String dbName, int limit) async {
-    ApiResponse result = await _client.put('$dbName/_revs_limit', body: limit);
+    final result = await _client.put('$dbName/_revs_limit', body: limit);
     return DatabasesResponse.from(result);
   }
 }

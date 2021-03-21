@@ -5,59 +5,63 @@ import '../design_documents.dart';
 /// Class that contains responses from `DesignDocumentModel` class
 class DesignDocumentsResponse {
   /// Creates instance of [DesignDocumentsResponse]
-  DesignDocumentsResponse(
-      {this.ddoc,
-      this.ok,
-      this.id,
-      this.rev,
-      this.attachment,
-      this.conflicts,
-      this.deleted,
-      this.deletedConflicts,
-      this.localSeq,
-      this.revsInfo,
-      this.revisions,
-      this.name,
-      this.viewIndex,
-      this.offset,
-      this.rows,
-      this.totalRows,
-      this.updateSeq,
-      this.results,
-      this.status,
-      this.raw});
+  DesignDocumentsResponse({
+    required this.ddoc,
+    required this.ok,
+    required this.id,
+    required this.rev,
+    this.attachment,
+    required this.conflicts,
+    required this.deleted,
+    required this.deletedConflicts,
+    required this.localSeq,
+    required this.revsInfo,
+    required this.revisions,
+    required this.name,
+    required this.viewIndex,
+    required this.offset,
+    required this.rows,
+    required this.totalRows,
+    required this.updateSeq,
+    required this.results,
+    required this.status,
+    required this.raw,
+  });
 
-  DesignDocumentsResponse.from(ApiResponse response) : this(
-      ddoc: response.json,
-      ok: response.json['ok'] as bool,
-      id: (response.json['_id'] ?? response.json['id']) as String,
-      rev: (response.json['_rev'] ?? response.json['rev']) as String,
-      attachment: response.json['_attachments'] ?? response.raw,
-      conflicts: (response.json['_conflicts'] as List<Object>)
-          ?.map((e) => e as String)
-          ?.toList(),
-      deleted: response.json['_deleted'] as bool,
-      deletedConflicts: (response.json['_deleted_conflicts'] as List<Object>)
-          ?.map((e) => e as String)
-          ?.toList(),
-      localSeq: response.json['_local_seq'] as String,
-      revsInfo: (response.json['_revs_info'] as List<Object>)
-          ?.map((e) => e as Map<String, Object>)
-          ?.toList(),
-      revisions: response.json['_revisions'] as Map<String, Object>,
-      name: response.json['name'] as String,
-      viewIndex: response.json['view_index'] as Map<String, Object>,
-      offset: response.json['offset'] as int,
-      rows: (response.json['rows'] as List<Object>)
-          ?.map((e) => e as Map<String, Object>)
-          ?.toList(),
-      totalRows: response.json['total_rows'] as int,
-      updateSeq: response.json['update_seq'] as String,
-      results: (response.json['results'] as List<Object>)
-          ?.map((e) => e as Map<String, Object>)
-          ?.toList(),
-      status: response.json['status'] as String,
-      raw: response.raw);
+  DesignDocumentsResponse.from(ApiResponse response)
+      : this(
+          ddoc: response.json,
+          ok: response.json['ok'] as bool,
+          id: (response.json['_id'] ?? response.json['id']) as String,
+          rev: (response.json['_rev'] ?? response.json['rev']) as String,
+          attachment: response.json['_attachments'] ?? response.raw,
+          conflicts: (response.json['_conflicts'] as List<Object>)
+              .map((e) => e as String)
+              .toList(),
+          deleted: response.json['_deleted'] as bool,
+          deletedConflicts:
+              (response.json['_deleted_conflicts'] as List<Object>)
+                  .map((e) => e as String)
+                  .toList(),
+          localSeq: response.json['_local_seq'] as String,
+          revsInfo: (response.json['_revs_info'] as List<Object>)
+              .map((e) => e as Map<String, Object>)
+              .toList(),
+          revisions: response.json['_revisions'] as Map<String, Object>,
+          name: response.json['name'] as String,
+          viewIndex: response.json['view_index'] as Map<String, Object>,
+          offset: response.json['offset'] as int,
+          rows: (response.json['rows'] as List<Object>)
+              .map((e) => e as Map<String, Object>)
+              .toList(),
+          totalRows: response.json['total_rows'] as int,
+          updateSeq: response.json['update_seq'] as String,
+          results: (response.json['results'] as List<Object>)
+              .map((e) => e as Map<String, Object>)
+              .toList(),
+          status: response.json['status'] as String,
+          raw: response.raw,
+        );
 
   /// Holds document object
   ///
@@ -87,7 +91,7 @@ class DesignDocumentsResponse {
   final String rev;
 
   /// Attachment's raw data
-  final Object attachment;
+  final Object? attachment;
 
   /// List of conflicted revisions
   final List<String> conflicts;
@@ -137,5 +141,5 @@ class DesignDocumentsResponse {
   /// Contains non-JSON body
   ///
   /// Can be returned by [DesignDocuments.executeShowFunctionForNull]
-  final String raw;
+  final String? raw;
 }

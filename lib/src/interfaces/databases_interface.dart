@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../responses/databases_response.dart';
 
 /// Class that define methods for interacting with entire database in CouchDB
@@ -9,7 +7,8 @@ abstract class DatabasesInterface {
   Future<DatabasesResponse> headDbInfo(String dbName);
 
   /// Get the data using the Views
-  Future<DatabasesResponse> query(String dbName, String dbDoc, String dbView, List<String> keys);
+  Future<DatabasesResponse> query(
+      String dbName, String dbDoc, String dbView, List<String> keys);
 
   /// Gets information about the specified database
   ///
@@ -78,9 +77,8 @@ abstract class DatabasesInterface {
   ///     "rev": "1-9c65296036141e575d32ba9c034dd3ee"
   /// }
   /// ```
-  Future<DatabasesResponse> createDocIn(
-      String dbName, Map<String, Object> doc,
-      {String batch, Map<String, String> headers});
+  Future<DatabasesResponse> createDocIn(String dbName, Map<String, Object> doc,
+      {required String batch, Map<String, String> headers});
 
   /// Executes the built-in _all_docs view, returning all of the documents in the database
   ///
@@ -229,8 +227,7 @@ abstract class DatabasesInterface {
   ///     "total_rows": 6
   /// }
   /// ```
-  Future<DatabasesResponse> designDocsByKeys(
-      String dbName, List<String> keys);
+  Future<DatabasesResponse> designDocsByKeys(String dbName, List<String> keys);
 
   /// Executes multiple specified built-in view queries of all documents in this database
   ///
@@ -362,7 +359,7 @@ abstract class DatabasesInterface {
   /// }
   /// ```
   Future<DatabasesResponse> bulkDocs(String dbName, List<Object> docs,
-      {@required bool revs});
+      {required bool revs});
 
   /// Creates and updates multiple documents at the same time within a single request
   ///
@@ -412,8 +409,7 @@ abstract class DatabasesInterface {
   ///     }
   /// }
   /// ```
-  Future<DatabasesResponse> find(
-      String dbName, Map<String, Object> selector,
+  Future<DatabasesResponse> find(String dbName, Map<String, Object> selector,
       {int limit = 25,
       int skip,
       List<Object> sort,
@@ -436,12 +432,14 @@ abstract class DatabasesInterface {
   ///     "name": "foo-index"
   /// }
   /// ```
-  Future<DatabasesResponse> createIndexIn(String dbName,
-      {@required List<String> indexFields,
-      String ddoc,
-      String name,
-      String type = 'json',
-      Map<String, Object> partialFilterSelector});
+  Future<DatabasesResponse> createIndexIn(
+    String dbName, {
+    required List<String> indexFields,
+    String ddoc,
+    String name,
+    String type = 'json',
+    Map<String, Object> partialFilterSelector,
+  });
 
   /// Gets a list of all indexes in the database
   ///
@@ -548,8 +546,7 @@ abstract class DatabasesInterface {
   ///     }
   /// }
   /// ```
-  Future<DatabasesResponse> explain(
-      String dbName, Map<String, Object> selector,
+  Future<DatabasesResponse> explain(String dbName, Map<String, Object> selector,
       {int limit = 25,
       int skip,
       List<Object> sort,
