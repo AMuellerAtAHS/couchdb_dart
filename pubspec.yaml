@@ -1,6 +1,6 @@
 name: couchdb
 description: CouchDB client written in Dart
-version: 0.7.0
+version: 0.7.1
 homepage: https://github.com/YevhenKap/couchdb_dart
 license: MIT
 
