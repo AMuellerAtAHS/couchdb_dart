@@ -94,7 +94,7 @@ abstract class DesignDocumentsInterface {
   /// Deletes the attachment of the specified design document
   Future<DesignDocumentsResponse> deleteAttachment(
       String dbName, String ddocId, String attName,
-      {@required String rev, Map<String, String> headers, String batch});
+      {required String rev, Map<String, String> headers, String batch});
 
   /// Obtains information about the specified design document, including the index, index size
   /// and current status of the design document and associated index information
@@ -205,7 +205,7 @@ abstract class DesignDocumentsInterface {
   /// ```
   Future<DesignDocumentsResponse> executeViewFunctionWithKeys(
       String dbName, String ddocId, String viewName,
-      {@required List<Object> keys,
+      {required List<Object> keys,
       bool conflicts = false,
       bool descending = false,
       Object endKey,

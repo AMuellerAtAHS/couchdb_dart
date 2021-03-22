@@ -163,11 +163,11 @@ abstract class ServerInterface {
   /// If [ensureDbsExist] isn't specified, it is defaults to `["_users","_replicator","_global_changes"]`.
   /// [bindAdress] should be provided not [host], if CouchDB is configuring as `single_node`.
   Future<ServerResponse> configureCouchDb(
-      {@required String action,
-      @required String bindAdress,
-      @required String username,
-      @required String password,
-      @required int port,
+      {required String action,
+      required String bindAdress,
+      required String username,
+      required String password,
+      required int port,
       int nodeCount,
       String remoteNode,
       String remoteCurrentUser,

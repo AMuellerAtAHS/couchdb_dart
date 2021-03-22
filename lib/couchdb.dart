@@ -26,21 +26,12 @@ export 'src/responses/databases_response.dart';
 export 'src/responses/design_documents_response.dart';
 export 'src/responses/documents_response.dart';
 export 'src/responses/local_documents_response.dart';
-export 'src/entities/server_model_response.dart';
 
 export 'src/databases.dart';
 export 'src/design_documents.dart';
 export 'src/documents.dart';
 export 'src/local_documents.dart';
 export 'src/server.dart';
-
-@Deprecated('Use classes above instead of the ones below')
-export 'src/entities/db_response.dart';
-export 'src/entities/database_model_response.dart';
-export 'src/entities/design_document_model_response.dart';
-export 'src/entities/document_model_response.dart';
-export 'src/entities/local_document_model_response.dart';
-export 'src/entities/server_model_response.dart';
 
 export 'src/models/database_model.dart';
 export 'src/models/design_document_model.dart';

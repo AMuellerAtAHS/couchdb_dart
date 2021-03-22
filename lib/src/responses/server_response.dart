@@ -121,7 +121,7 @@ class ServerResponse {
           v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
       couchDb: response.json['couchdb'] is Map
-          ? (response.json['couchdb'] as Map<String, Object>)?.map((k, v) =>
+          ? (response.json['couchdb'] as Map<String, Object>).map((k, v) =>
           MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>))
           : null,
       pread: (response.json['pread'] as Map<String, Object>).map((k, v) =>

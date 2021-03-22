@@ -182,6 +182,7 @@ class CouchDbClient implements ClientInterface {
   }
 
   /// HEAD method
+  @override
   Future<ApiResponse> head(String path,
       {Map<String, String>? reqHeaders}) async {
     modifyRequestHeaders(reqHeaders);
@@ -230,8 +231,11 @@ class CouchDbClient implements ClientInterface {
 
   /// PUT method
   @override
-  Future<ApiResponse> put(String path,
-      {Object? body, required Map<String, String> reqHeaders}) async {
+  Future<ApiResponse> put(
+    String path, {
+    Object? body,
+    Map<String, String> reqHeaders = const {},
+  }) async {
     modifyRequestHeaders(reqHeaders);
 
     Object? encodedBody;
@@ -254,8 +258,11 @@ class CouchDbClient implements ClientInterface {
 
   /// POST method
   @override
-  Future<ApiResponse> post(String path,
-      {Object? body, required Map<String, String> reqHeaders}) async {
+  Future<ApiResponse> post(
+    String path, {
+    Object? body,
+    Map<String, String> reqHeaders = const {},
+  }) async {
     modifyRequestHeaders(reqHeaders);
 
     Object? encodedBody;
@@ -284,8 +291,10 @@ class CouchDbClient implements ClientInterface {
 
   /// DELETE method
   @override
-  Future<ApiResponse> delete(String path,
-      {Map<String, String> reqHeaders = const {}}) async {
+  Future<ApiResponse> delete(
+    String path, {
+    Map<String, String> reqHeaders = const {},
+  }) async {
     modifyRequestHeaders(reqHeaders);
 
     final res =
@@ -303,8 +312,10 @@ class CouchDbClient implements ClientInterface {
 
   /// COPY method
   @override
-  Future<ApiResponse> copy(String path,
-      {required Map<String, String> reqHeaders}) async {
+  Future<ApiResponse> copy(
+    String path, {
+    required Map<String, String> reqHeaders,
+  }) async {
     modifyRequestHeaders(reqHeaders);
     final request = http.Request('COPY', Uri.parse('$origin/$path'));
     request.headers.addAll(headers);
@@ -326,8 +337,12 @@ class CouchDbClient implements ClientInterface {
   ///
   /// Returns undecoded response.
   @override
-  Future<Stream<String>> streamed(String method, String path,
-      {Object? body, required Map<String, String> reqHeaders}) async {
+  Future<Stream<String>> streamed(
+    String method,
+    String path, {
+    Object? body,
+    Map<String, String> reqHeaders = const {},
+  }) async {
     modifyRequestHeaders(reqHeaders);
 
     final uriString = path.isNotEmpty ? '$origin/$path' : '$origin';
@@ -378,11 +393,9 @@ class CouchDbClient implements ClientInterface {
     final path = next != null ? '_session?next=$next' : '_session';
 
     try {
-      res = await post(
-        path,
-        body: <String, String>{'name': username, 'password': password},
-        reqHeaders: {}
-      );
+      res = await post(path,
+          body: <String, String>{'name': username, 'password': password},
+          reqHeaders: {});
     } on CouchDbException {
       rethrow;
     }
@@ -398,6 +411,7 @@ class CouchDbClient implements ClientInterface {
   /// ```json
   /// {'ok': true}
   /// ```
+  @override
   Future<ApiResponse> logout() async {
     ApiResponse res;
 
@@ -437,6 +451,7 @@ class CouchDbClient implements ClientInterface {
   ///     }
   /// }
   /// ```
+  @override
   Future<ApiResponse> userInfo({bool basic = false}) async {
     ApiResponse res;
     final prevAuth = auth;

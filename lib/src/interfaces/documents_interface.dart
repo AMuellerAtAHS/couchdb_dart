@@ -145,5 +145,5 @@ abstract class DocumentsInterface {
   /// ```
   Future<DocumentsResponse> deleteAttachment(
       String dbName, String docId, String attName,
-      {@required String rev, Map<String, String> headers, String batch});
+      {required String rev, Map<String, String> headers, String batch});
 }

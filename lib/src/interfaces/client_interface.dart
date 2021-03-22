@@ -3,34 +3,53 @@ import '../responses/api_response.dart';
 /// Client for interacting with CouchDB server
 abstract class ClientInterface {
   /// HEAD method
-  Future<ApiResponse> head(String path, {Map<String, String> reqHeaders});
+  Future<ApiResponse> head(
+    String path, {
+    Map<String, String> reqHeaders,
+  });
 
   /// GET method
-  Future<ApiResponse> get(String path,
-      {Map<String, String> reqHeaders = const {}});
+  Future<ApiResponse> get(
+    String path, {
+    Map<String, String> reqHeaders = const {},
+  });
 
   /// PUT method
-  Future<ApiResponse> put(String path,
-      {Object? body, Map<String, String> reqHeaders = const {}});
+  Future<ApiResponse> put(
+    String path, {
+    Object? body,
+    Map<String, String> reqHeaders = const {},
+  });
 
   /// POST method
-  Future<ApiResponse> post(String path,
-      {Object? body, Map<String, String> reqHeaders = const {}});
+  Future<ApiResponse> post(
+    String path, {
+    Object? body,
+    Map<String, String> reqHeaders = const {},
+  });
 
   /// DELETE method
-  Future<ApiResponse> delete(String path,
-      {Map<String, String> reqHeaders = const {}});
+  Future<ApiResponse> delete(
+    String path, {
+    Map<String, String> reqHeaders = const {},
+  });
 
   /// COPY method
-  Future<ApiResponse> copy(String path,
-      {required Map<String, String> reqHeaders});
+  Future<ApiResponse> copy(
+    String path, {
+    required Map<String, String> reqHeaders,
+  });
 
   /// Makes request with specific [method] and with long or
   /// continuous connection
   ///
   /// Returns undecoded response.
-  Future<Stream<String>> streamed(String method, String path,
-      {Object? body, Map<String, String> reqHeaders = const {}});
+  Future<Stream<String>> streamed(
+    String method,
+    String path, {
+    Object? body,
+    Map<String, String> reqHeaders = const {},
+  });
 
   /// Initiates new session for specified user credentials by
   /// providing `Cookie` value
