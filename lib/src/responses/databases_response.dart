@@ -52,16 +52,16 @@ class DatabasesResponse {
   /// Returns response with fields that may be returned by `Databases`
   /// request methods
   DatabasesResponse.from(ApiResponse response) : this(
-      cluster: (response.json['cluster'] as Map<String, dynamic>)
-          .map((k, v) => MapEntry<String, int>(k, v as int)),
+      cluster: (response.json['cluster'] as Map<String, dynamic>?)
+          ?.map((k, v) => MapEntry<String, int>(k, v as int)),
       compactRunning: response.json['compact_running'] as bool,
       dbName: (response.json['db_name'] ?? response.json['dbname']) as String,
       diskFormatVersion: response.json['disk_format_version'] as int,
       docCount: response.json['doc_count'] as int,
       docDelCount: response.json['doc_del_count'] as int,
       purgeSeq: response.json['purge_seq'] as String,
-      sizes: (response.json['sizes'] as Map<String, dynamic>)
-          .map((k, v) => MapEntry<String, int>(k, v as int)),
+      sizes: (response.json['sizes'] as Map<String, dynamic>?)
+          ?.map((k, v) => MapEntry<String, int>(k, v as int)),
       updateSeq: response.json['update_seq'] as String,
       ok: response.json['ok'] as bool?,
       id: response.json['id'] as String?,
@@ -138,7 +138,7 @@ class DatabasesResponse {
           .toList());
 
   /// Holds cluster's info
-  final Map<String, int> cluster;
+  final Map<String, int>? cluster;
 
   /// Is true if the database compaction routine is operating on this database
   ///
@@ -164,7 +164,7 @@ class DatabasesResponse {
   final String purgeSeq;
 
   /// Sizes info returned by [Databases.dbInfo]
-  final Map<String, int> sizes;
+  final Map<String, int>? sizes;
 
   /// An opaque string that describes the state of the database
   ///
