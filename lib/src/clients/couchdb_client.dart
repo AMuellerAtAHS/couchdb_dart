@@ -205,6 +205,7 @@ class CouchDbClient implements ClientInterface {
 
     final uriString = path.isNotEmpty ? '$origin/$path' : '$origin';
     final res = await _httpClient.get(Uri.parse(uriString), headers: headers);
+    print(res.body);
 
     final bodyUTF8 = utf8.decode(res.bodyBytes);
     if (res.headers['content-type'] == 'application/json') {
