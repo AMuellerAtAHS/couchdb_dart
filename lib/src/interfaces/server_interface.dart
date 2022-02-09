@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../responses/server_response.dart';
 
 /// Server interface provides the basic interface to a CouchDB server

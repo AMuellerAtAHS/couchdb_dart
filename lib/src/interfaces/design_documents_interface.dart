@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../responses/design_documents_response.dart';
 
 /// Class that contains methods that allow operate with design documents

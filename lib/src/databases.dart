@@ -81,54 +81,56 @@ class Databases implements DatabasesInterface {
   }
 
   @override
-  Future<DatabasesResponse> allDocs(String dbName,
-      {bool conflicts = false,
-      bool descending = false,
-      dynamic endKey = '',
-      String endKeyDocId = '',
-      bool group = false,
-      int? groupLevel,
-      bool includeDocs = false,
-      bool attachments = false,
-      bool altEncodingInfo = false,
-      bool inclusiveEnd = true,
-      dynamic key,
-      List<dynamic> keys = const [],
-      int? limit,
-      bool? reduce,
-      int? skip,
-      bool sorted = true,
-      bool stable = false,
-      String? stale,
-      dynamic startKey,
-      String? startKeyDocId,
-      String? update,
-      bool updateSeq = false}) async {
-    final result = await _client.get(
-      '$dbName/_all_docs'
-      '?conflicts=$conflicts'
-      '&descending=$descending'
-      '&endkey=$endKey'
-      '&endkey_docid=$endKeyDocId'
-      '&group=$group'
-      '&group_level=${groupLevel ?? ''}'
-      '&include_docs=$includeDocs'
-      '&attachments=$attachments'
-      '&alt_encoding_info=$altEncodingInfo'
-      '&inclusive_end=$inclusiveEnd'
-      '&key=${key ?? ''}'
-      '&keys=$keys'
-      '&limit=$limit'
-      '&reduce=${reduce ?? ''}'
-      '&skip=$skip'
-      '&sorted=$sorted'
-      '&stable=$stable'
-      '&stale=${stale ?? ''}'
-      '&startkey=${startKey ?? ''}'
-      '&startkey_docid=${startKeyDocId ?? ''}'
-      '&update=${update ?? ''}'
-      '&update_seq=$updateSeq',
-    );
+  Future<DatabasesResponse> allDocs(
+    String dbName, {
+    bool conflicts = false,
+    bool descending = false,
+    dynamic endKey,
+    String? endKeyDocId,
+    bool group = false,
+    int? groupLevel,
+    bool includeDocs = false,
+    bool attachments = false,
+    bool altEncodingInfo = false,
+    bool inclusiveEnd = true,
+    dynamic key,
+    List<dynamic>? keys,
+    int? limit,
+    bool? reduce,
+    int? skip,
+    bool sorted = true,
+    bool stable = false,
+    String? stale,
+    dynamic startKey,
+    String? startKeyDocId,
+    String? update,
+    bool updateSeq = false,
+  }) async {
+    var path = '$dbName/_all_docs?';
+    if (conflicts) path += 'conflicts=$conflicts&';
+    if (descending) path += 'descending=$descending&';
+    if (endKey != null) path += 'endkey=${utf8.encode(endKey)}&';
+    if (endKeyDocId != null) path += 'endkey_docid=$endKeyDocId&';
+    if (group) path += 'group=$group&';
+    if (groupLevel != null) path += 'group_level=$groupLevel&';
+    if (includeDocs) path += 'include_docs=$includeDocs&';
+    if (attachments) path += 'attachments=$attachments&';
+    if (altEncodingInfo) path += 'alt_encoding_info=$altEncodingInfo&';
+    if (!inclusiveEnd) path += 'inclusive_end=$inclusiveEnd&';
+    if (key != null) path += 'key=${utf8.encode(key)}&';
+    if (keys != null) path += 'keys=$keys&';
+    if (limit != null) path += 'limit=$limit&';
+    if (reduce != null) 'reduce=$reduce&';
+    if (skip != null) path += 'skip=$skip&';
+    if (!sorted) path += 'sorted=$sorted&';
+    if (stable) path += 'stable=$stable&';
+    if (stale != null) path += 'stale=$stale&';
+    if (startKey != null) path += 'startkey=${utf8.encode(startKey)}&';
+    if (startKeyDocId != null) path += 'startkey_docid=$startKeyDocId&';
+    if (update != null) path += 'update=$update&';
+    if (updateSeq) path += 'update_seq=$updateSeq';
+
+    final result = await _client.get(path);
     return DatabasesResponse.from(result);
   }
 
@@ -144,34 +146,36 @@ class Databases implements DatabasesInterface {
   }
 
   @override
-  Future<DatabasesResponse> allDesignDocs(String dbName,
-      {bool conflicts = false,
-      bool descending = false,
-      String? endKey,
-      String? endKeyDocId,
-      bool includeDocs = false,
-      bool inclusiveEnd = true,
-      String? key,
-      String? keys,
-      int? limit,
-      int skip = 0,
-      String? startKey,
-      String? startKeyDocId,
-      bool updateSeq = false}) async {
-    final path = '$dbName/_design_docs?'
-        'conflicts=$conflicts'
-        '&descending=$descending'
-        '&endkey=${endKey ?? ''}'
-        '&endkey_docid=${endKeyDocId ?? ''}'
-        '&include_docs=$includeDocs'
-        '&inclusive_end=$inclusiveEnd'
-        '&key=${key ?? ''}'
-        '&keys=${keys ?? ''}'
-        '&limit=${limit ?? ''}'
-        '&skip=$skip'
-        '&startkey=${startKey ?? ''}'
-        '&startkey_docid=${startKeyDocId ?? ''}'
-        '&update_seq=$updateSeq';
+  Future<DatabasesResponse> allDesignDocs(
+    String dbName, {
+    bool conflicts = false,
+    bool descending = false,
+    String? endKey,
+    String? endKeyDocId,
+    bool includeDocs = false,
+    bool inclusiveEnd = true,
+    String? key,
+    String? keys,
+    int? limit,
+    int skip = 0,
+    String? startKey,
+    String? startKeyDocId,
+    bool updateSeq = false,
+  }) async {
+    var path = '$dbName/_design_docs?';
+    if (conflicts) path += 'conflicts=$conflicts&';
+    if (descending) path += 'descending=$descending&';
+    if (endKey != null) path += 'endkey=${utf8.encode(endKey)}&';
+    if (endKeyDocId != null) path += 'endkey_docid=$endKeyDocId&';
+    if (includeDocs) path += 'include_docs=$includeDocs&';
+    if (!inclusiveEnd) path += 'inclusive_end=$inclusiveEnd&';
+    if (key != null) path += 'key=${utf8.encode(key)}&';
+    if (keys != null) path += 'keys=$keys&';
+    if (limit != null) path += 'limit=$limit&';
+    if (skip != 0) path += 'skip=$skip&';
+    if (startKey != null) path += 'startkey=${utf8.encode(startKey)}&';
+    if (startKeyDocId != null) path += 'startkey_docid=$startKeyDocId&';
+    if (updateSeq) path += 'update_seq=$updateSeq';
 
     final result = await _client.get(path);
     return DatabasesResponse.from(result);

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'interfaces/client_interface.dart';
 import 'interfaces/documents_interface.dart';
 import 'responses/documents_response.dart';
@@ -64,19 +66,19 @@ class Documents implements DocumentsInterface {
     bool revs = false,
     bool revsInfo = false,
   }) async {
-    final path = '$dbName/$docId?'
-        'attachments=$attachments'
-        '&att_encoding_info=$attEncodingInfo'
-        '&atts_since=${attsSince ?? ''}'
-        '&conflicts=$conflicts'
-        '&deleted_conflicts=$deletedConflicts'
-        '&latest=$latest'
-        '&local_seq=$localSeq'
-        '&meta=$meta'
-        '&open_revs=${openRevs ?? ''}'
-        '&rev=${rev ?? ''}'
-        '&revs=$revs'
-        '&revs_info=$revsInfo';
+    var path = '$dbName/$docId?';
+    if (attachments) path += 'attachments=$attachments&';
+    if (attEncodingInfo) path += 'att_encoding_info=$attEncodingInfo&';
+    if (attsSince != null) path += 'atts_since=$attsSince&';
+    if (conflicts) path += 'conflicts=$conflicts&';
+    if (deletedConflicts) path += 'deleted_conflicts=$deletedConflicts&';
+    if (latest) path += 'latest=$latest&';
+    if (localSeq) path += 'local_seq=$localSeq&';
+    if (meta) path += 'meta=$meta&';
+    if (openRevs != null) path += 'open_revs=${utf8.encode(openRevs)}&';
+    if (rev != null) path += 'rev=$rev&';
+    if (revs) path += 'revs=$revs&';
+    if (revsInfo) path += 'revs_info=$revsInfo&';
 
     final result = await _client.get(path, reqHeaders: headers);
     return DocumentsResponse.from(result);

@@ -1,7 +1,5 @@
 import 'package:couchdb/couchdb.dart';
 
-import '../design_documents.dart';
-
 /// Class that contains responses from `DesignDocumentModel` class
 class DesignDocumentsResponse {
   /// Creates instance of [DesignDocumentsResponse]

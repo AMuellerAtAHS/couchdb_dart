@@ -1,52 +1,50 @@
 import 'package:couchdb/couchdb.dart';
 
-import '../databases.dart';
-
 /// Class that contains responses from `Databases` class
 class DatabasesResponse {
   /// Creates instance of [DatabasesResponse]
   DatabasesResponse({
-    required this.cluster,
-    required this.compactRunning,
-    required this.dbName,
-    required this.diskFormatVersion,
-    required this.docCount,
-    required this.docDelCount,
-    required this.purgeSeq,
-    required this.sizes,
-    required this.updateSeq,
-    required this.ok,
-    required this.id,
-    required this.rev,
-    required this.offset,
-    required this.rows,
-    required this.totalRows,
-    required this.results,
-    required this.docs,
-    required this.warning,
-    required this.executionStats,
-    required this.bookmark,
-    required this.result,
-    required this.name,
-    required this.indexes,
-    required this.index,
-    required this.selector,
-    required this.opts,
-    required this.limit,
-    required this.skip,
-    required this.fields,
-    required this.range,
-    required this.lastSeq,
-    required this.pending,
-    required this.admins,
-    required this.members,
-    required this.purged,
-    required this.missedRevs,
-    required this.revsDiff,
-    required this.list,
-    required this.shards,
-    required this.shardRange,
-    required this.nodes,
+    this.cluster,
+    this.compactRunning,
+    this.dbName,
+    this.diskFormatVersion,
+    this.docCount,
+    this.docDelCount,
+    this.purgeSeq,
+    this.sizes,
+    this.updateSeq,
+    this.ok,
+    this.id,
+    this.rev,
+    this.offset,
+    this.rows,
+    this.totalRows,
+    this.results,
+    this.docs,
+    this.warning,
+    this.executionStats,
+    this.bookmark,
+    this.result,
+    this.name,
+    this.indexes,
+    this.index,
+    this.selector,
+    this.opts,
+    this.limit,
+    this.skip,
+    this.fields,
+    this.range,
+    this.lastSeq,
+    this.pending,
+    this.admins,
+    this.members,
+    this.purged,
+    this.missedRevs,
+    this.revsDiff,
+    this.list,
+    this.shards,
+    this.shardRange,
+    this.nodes,
   });
 
   /// Returns response with fields that may be returned by `Databases`
@@ -55,16 +53,16 @@ class DatabasesResponse {
       : this(
             cluster: (response.json['cluster'] as Map<String, dynamic>?)
                 ?.map((k, v) => MapEntry<String, int>(k, v as int)),
-            compactRunning: response.json['compact_running'] as bool,
-            dbName:
-                (response.json['db_name'] ?? response.json['dbname']) as String,
-            diskFormatVersion: response.json['disk_format_version'] as int,
-            docCount: response.json['doc_count'] as int,
-            docDelCount: response.json['doc_del_count'] as int,
-            purgeSeq: response.json['purge_seq'] as String,
+            compactRunning: response.json['compact_running'] as bool?,
+            dbName: (response.json['db_name'] ?? response.json['dbname'])
+                as String?,
+            diskFormatVersion: response.json['disk_format_version'] as int?,
+            docCount: response.json['doc_count'] as int?,
+            docDelCount: response.json['doc_del_count'] as int?,
+            purgeSeq: response.json['purge_seq'] as String?,
             sizes: (response.json['sizes'] as Map<String, dynamic>?)
                 ?.map((k, v) => MapEntry<String, int>(k, v as int)),
-            updateSeq: response.json['update_seq'] as String,
+            updateSeq: response.json['update_seq'] as String?,
             ok: response.json['ok'] as bool?,
             id: response.json['id'] as String?,
             rev: response.json['rev'] as String?,
@@ -115,25 +113,25 @@ class DatabasesResponse {
   /// Is true if the database compaction routine is operating on this database
   ///
   /// Returns by [Databases.dbInfo]
-  final bool compactRunning;
+  final bool? compactRunning;
 
   /// Holds the name of the database
-  final String dbName;
+  final String? dbName;
 
   /// The version of the physical format used for the data when it
   /// is stored on disk
-  final int diskFormatVersion;
+  final int? diskFormatVersion;
 
   /// A count of the documents in the specified database
-  final int docCount;
+  final int? docCount;
 
   /// Number of deleted documents
-  final int docDelCount;
+  final int? docDelCount;
 
   /// An opaque string that describes the purge state of the database
   ///
   /// Do not rely on this string for counting the number of purge operations.
-  final String purgeSeq;
+  final String? purgeSeq;
 
   /// Sizes info returned by [Databases.dbInfo]
   final Map<String, int>? sizes;
@@ -141,7 +139,7 @@ class DatabasesResponse {
   /// An opaque string that describes the state of the database
   ///
   /// Do not rely on this string for counting the number of updates.
-  final String updateSeq;
+  final String? updateSeq;
 
   /// Holds operation status. Available in case of success
   final bool? ok;

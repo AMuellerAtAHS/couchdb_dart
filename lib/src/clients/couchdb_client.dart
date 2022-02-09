@@ -4,10 +4,6 @@ import 'package:couchdb/couchdb.dart';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 
-import '../exceptions/couchdb_exception.dart';
-import '../interfaces/client_interface.dart';
-import '../responses/api_response.dart';
-
 /// Client for interacting with database via server-side and web applications
 class CouchDbClient implements ClientInterface {
   /// Creates instance of client with [username], [password], [host], [port],
@@ -165,11 +161,11 @@ class CouchDbClient implements ClientInterface {
         break;
       case 'proxy':
         _headers['X-Auth-CouchDB-UserName'] = username;
-        if (secret != null) {
-          final encodedUsername = utf8.encode(username);
-          _headers['X-Auth-CouchDB-Token'] =
-              Hmac(sha1, secret).convert(encodedUsername).toString();
-        }
+
+        final encodedUsername = utf8.encode(username);
+        _headers['X-Auth-CouchDB-Token'] =
+            Hmac(sha1, secret).convert(encodedUsername).toString();
+
         break;
       default:
         if (authCredentials.isNotEmpty) {

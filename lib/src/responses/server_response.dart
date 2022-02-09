@@ -1,7 +1,5 @@
 import 'package:couchdb/couchdb.dart';
 
-import '../server.dart';
-
 /// Class that contains responses from `Server` class
 class ServerResponse {
   /// Creates instance of [ServerResponse]

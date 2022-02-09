@@ -1,44 +1,47 @@
 import 'package:couchdb/couchdb.dart';
 
-import '../documents.dart';
-
 /// Class that contains responses from `Documents` class
 class DocumentsResponse {
   /// Creates instance of [DocumentsResponse]
   DocumentsResponse({
-    required this.doc,
-    required this.ok,
-    required this.id,
-    required this.rev,
+    this.doc,
+    this.ok,
+    this.id,
+    this.rev,
     this.attachment,
-    required this.conflicts,
-    required this.deleted,
-    required this.deletedConflicts,
-    required this.localSeq,
-    required this.revsInfo,
-    required this.revisions,
+    this.conflicts,
+    this.deleted,
+    this.deletedConflicts,
+    this.localSeq,
+    this.revsInfo,
+    this.revisions,
   });
 
   DocumentsResponse.from(ApiResponse response)
       : this(
             doc: response.json,
-            ok: response.json['ok'] as bool,
-            id: (response.json['_id'] ?? response.json['id']) as String,
-            rev: (response.json['_rev'] ?? response.json['rev']) as String,
+            ok: response.json['ok'] as bool?,
+            id: (response.json['_id'] ?? response.json['id']) as String?,
+            rev: (response.json['_rev'] ?? response.json['rev']) as String?,
             attachment: response.json['_attachments'] ?? response.raw,
-            conflicts: (response.json['_conflicts'] as List<dynamic>)
-                .map((e) => e as String)
-                .toList(),
-            deleted: response.json['_deleted'] as bool,
-            deletedConflicts:
-                (response.json['_deleted_conflicts'] as List<dynamic>)
+            conflicts: (response.json['_conflicts'] != null)
+                ? (response.json['_conflicts'] as List<dynamic>)
                     .map((e) => e as String)
-                    .toList(),
-            localSeq: response.json['_local_seq'] as String,
-            revsInfo: (response.json['_revs_info'] as List<dynamic>)
-                .map((e) => e as Map<String, dynamic>)
-                .toList(),
-            revisions: response.json['_revisions'] as Map<String, dynamic>);
+                    .toList()
+                : null,
+            deleted: response.json['_deleted'] as bool?,
+            deletedConflicts: (response.json['_deleted_conflicts'] != null)
+                ? (response.json['_deleted_conflicts'] as List<dynamic>)
+                    .map((e) => e as String)
+                    .toList()
+                : null,
+            localSeq: response.json['_local_seq'] as String?,
+            revsInfo: (response.json['_revs_info'] != null)
+                ? (response.json['_revs_info'] as List<dynamic>)
+                    .map((e) => e as Map<String, dynamic>)
+                    .toList()
+                : null,
+            revisions: response.json['_revisions'] as Map<String, dynamic>?);
 
   /// Holds document object
   ///
@@ -56,35 +59,35 @@ class DocumentsResponse {
   /// This properties are listed separately in [DocumentsResponse] and you can get them directly.
   ///
   /// Returns by [Documents.doc]
-  final Map<String, dynamic> doc;
+  final Map<String, dynamic>? doc;
 
   /// Holds operation status. Available in case of success
-  final bool ok;
+  final bool? ok;
 
   /// Holds document ID
-  final String id;
+  final String? id;
 
   /// Holds revision info of document
-  final String rev;
+  final String? rev;
 
   /// Attachment's raw data
   final dynamic attachment;
 
   /// List of conflicted revisions
-  final List<String> conflicts;
+  final List<String?>? conflicts;
 
   /// Deletion flag. Available if document was removed
-  final bool deleted;
+  final bool? deleted;
 
   /// List of deleted conflicted revisions
-  final List<String> deletedConflicts;
+  final List<String?>? deletedConflicts;
 
   /// Document’s update sequence in current database
-  final String localSeq;
+  final String? localSeq;
 
   /// List of objects with information about local revisions and their status
-  final List<Map<String, dynamic>> revsInfo;
+  final List<Map<String, dynamic>?>? revsInfo;
 
   /// List of local revision tokens without
-  final Map<String, dynamic> revisions;
+  final Map<String, dynamic>? revisions;
 }

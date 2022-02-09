@@ -1,7 +1,5 @@
 import 'package:couchdb/couchdb.dart';
 
-import '../local_documents.dart';
-
 /// Class that contains responses from `LocalDocuments` class
 class LocalDocumentsResponse {
   /// Creates instance of [LocalDocumentsResponse]
