@@ -21,7 +21,7 @@ class DesignDocuments implements DesignDocumentsInterface {
       bool latest = false,
       bool localSeq = false,
       bool meta = false,
-      Object? openRevs,
+      dynamic openRevs,
       String? rev,
       bool revs = false,
       bool revsInfo = false}) async {
@@ -56,7 +56,7 @@ class DesignDocuments implements DesignDocumentsInterface {
     bool latest = false,
     bool localSeq = false,
     bool meta = false,
-    Object? openRevs,
+    dynamic openRevs,
     String? rev,
     bool revs = false,
     bool revsInfo = false,
@@ -83,7 +83,7 @@ class DesignDocuments implements DesignDocumentsInterface {
   Future<DesignDocumentsResponse> insertDesignDoc(
     String dbName,
     String ddocId,
-    Map<String, Object> body, {
+    Map<String, dynamic> body, {
     Map<String, String> headers = const {},
     String? rev,
     String? batch,
@@ -151,7 +151,7 @@ class DesignDocuments implements DesignDocumentsInterface {
 
   @override
   Future<DesignDocumentsResponse> uploadAttachment(
-      String dbName, String ddocId, String attName, Object body,
+      String dbName, String ddocId, String attName, dynamic body,
       {Map<String, String> headers = const {}, String? rev}) async {
     final path = '$dbName/$ddocId/$attName?rev=${rev ?? ''}';
 
@@ -186,7 +186,7 @@ class DesignDocuments implements DesignDocumentsInterface {
       String dbName, String ddocId, String viewName,
       {bool conflicts = false,
       bool descending = false,
-      Object? endKey,
+      dynamic endKey,
       String? endKeyDocId,
       bool? group = false,
       int? groupLevel,
@@ -194,15 +194,15 @@ class DesignDocuments implements DesignDocumentsInterface {
       bool attachments = false,
       bool attEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object? key,
-      List<Object>? keys,
+      dynamic key,
+      List<dynamic>? keys,
       int? limit,
       bool reduce = false, // for solving conflict with [conflicts]
       int skip = 0,
       bool sorted = true,
       bool stable = false,
       String? stale,
-      Object? startKey,
+      dynamic startKey,
       String? startKeyDocId,
       String update = 'true',
       bool updateSeq = false,
@@ -265,10 +265,10 @@ class DesignDocuments implements DesignDocumentsInterface {
   @override
   Future<DesignDocumentsResponse> executeViewFunctionWithKeys(
       String dbName, String ddocId, String viewName,
-      {required List<Object> keys,
+      {required List<dynamic> keys,
       bool conflicts = false,
       bool descending = false,
-      Object? endKey,
+      dynamic endKey,
       String? endKeyDocId,
       bool group = false,
       int? groupLevel,
@@ -276,14 +276,14 @@ class DesignDocuments implements DesignDocumentsInterface {
       bool attachments = false,
       bool attEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object? key,
+      dynamic key,
       int? limit,
       bool reduce = false, // Reason is the same as above
       int skip = 0,
       bool sorted = true,
       bool stable = false,
       String? stale,
-      Object? startKey,
+      dynamic startKey,
       String? startKeyDocId,
       String update = 'true',
       bool updateSeq = false,
@@ -337,7 +337,7 @@ class DesignDocuments implements DesignDocumentsInterface {
           '&update_seq=$updateSeq';
     }
 
-    final body = <String, List<Object>>{'keys': keys};
+    final body = <String, List<dynamic>>{'keys': keys};
 
     final result = await _client.post(path, reqHeaders: headers, body: body);
     return DesignDocumentsResponse.from(result);
@@ -345,8 +345,8 @@ class DesignDocuments implements DesignDocumentsInterface {
 
   @override
   Future<DesignDocumentsResponse> executeViewQueries(String dbName,
-      String ddocId, String viewName, List<Object> queries) async {
-    final body = <String, List<Object>>{'queries': queries};
+      String ddocId, String viewName, List<dynamic> queries) async {
+    final body = <String, List<dynamic>>{'queries': queries};
 
     final result = await _client.post('$dbName/$ddocId/_view/$viewName/queries',
         body: body);
@@ -395,7 +395,7 @@ class DesignDocuments implements DesignDocumentsInterface {
 
   @override
   Future<DesignDocumentsResponse> executeUpdateFunctionForNull(
-      String dbName, String ddocId, String funcName, Object body) async {
+      String dbName, String ddocId, String funcName, dynamic body) async {
     final result =
         await _client.post('$dbName/$ddocId/_update/$funcName', body: body);
     return DesignDocumentsResponse.from(result);
@@ -407,7 +407,7 @@ class DesignDocuments implements DesignDocumentsInterface {
       String ddocId,
       String funcName,
       String docId,
-      Object body) async {
+      dynamic body) async {
     final result = await _client.put('$dbName/$ddocId/_update/$funcName/$docId',
         body: body);
     return DesignDocumentsResponse.from(result);

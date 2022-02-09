@@ -23,7 +23,7 @@ class Documents implements DocumentsInterface {
     bool latest = false,
     bool localSeq = false,
     bool meta = false,
-    Object? openRevs,
+    dynamic openRevs,
     String? rev,
     bool revs = false,
     bool revsInfo = false,
@@ -59,7 +59,7 @@ class Documents implements DocumentsInterface {
     bool latest = false,
     bool localSeq = false,
     bool meta = false,
-    Object? openRevs,
+    dynamic openRevs,
     String? rev,
     bool revs = false,
     bool revsInfo = false,
@@ -86,7 +86,7 @@ class Documents implements DocumentsInterface {
   Future<DocumentsResponse> insertDoc(
     String dbName,
     String docId,
-    Map<String, Object> body, {
+    Map<String, dynamic> body, {
     Map<String, String> headers = const {},
     String? rev,
     String? batch,
@@ -174,7 +174,7 @@ class Documents implements DocumentsInterface {
     String dbName,
     String docId,
     String attName,
-    Object body, {
+    dynamic body, {
     Map<String, String> headers = const <String, String>{},
     String? rev,
   }) async {

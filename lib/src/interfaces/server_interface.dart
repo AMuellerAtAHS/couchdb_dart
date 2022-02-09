@@ -5,7 +5,6 @@ import '../responses/server_response.dart';
 /// Server interface provides the basic interface to a CouchDB server
 /// for obtaining CouchDB information and getting and setting configuration information
 abstract class ServerInterface {
-
   /// Accessing the root of a CouchDB instance returns meta information about the instance
   ///
   /// Returns JSON like:
@@ -268,8 +267,8 @@ abstract class ServerInterface {
       List<String> docIds,
       String filterFunJS,
       String proxy,
-      Object source,
-      Object target,
+      dynamic source,
+      dynamic target,
       Map<String, String> headers});
 
   /// List of replication jobs
@@ -500,8 +499,7 @@ abstract class ServerInterface {
   ///     ]
   /// }
   /// ```
-  Future<ServerResponse> uuids(
-      {int count = 1, Map<String, String> headers});
+  Future<ServerResponse> uuids({int count = 1, Map<String, String> headers});
 
 // /// Binary content for the favicon.ico site icon
 // /// Returns 'Not found' if favicon isn't exist.

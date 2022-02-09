@@ -150,7 +150,7 @@
 - Implement all methods of `DesignDocumentModel` class.
 - Add library description to `CouchDb(Server/Web)Client` classes.
 - Add `raw` field to `DbResponse` class (prior `rawBody`).
-- Change `body` parameter of `post()` method in `CouchDb(Server/Web)Client` to `Object` type.
+- Change `body` parameter of `post()` method in `CouchDb(Server/Web)Client` to `dynamic` type.
 
 ## 0.0.8
 

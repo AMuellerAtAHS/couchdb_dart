@@ -26,19 +26,19 @@ class DocumentsResponse {
             id: (response.json['_id'] ?? response.json['id']) as String,
             rev: (response.json['_rev'] ?? response.json['rev']) as String,
             attachment: response.json['_attachments'] ?? response.raw,
-            conflicts: (response.json['_conflicts'] as List<Object>)
+            conflicts: (response.json['_conflicts'] as List<dynamic>)
                 .map((e) => e as String)
                 .toList(),
             deleted: response.json['_deleted'] as bool,
             deletedConflicts:
-                (response.json['_deleted_conflicts'] as List<Object>)
+                (response.json['_deleted_conflicts'] as List<dynamic>)
                     .map((e) => e as String)
                     .toList(),
             localSeq: response.json['_local_seq'] as String,
-            revsInfo: (response.json['_revs_info'] as List<Object>)
-                .map((e) => e as Map<String, Object>)
+            revsInfo: (response.json['_revs_info'] as List<dynamic>)
+                .map((e) => e as Map<String, dynamic>)
                 .toList(),
-            revisions: response.json['_revisions'] as Map<String, Object>);
+            revisions: response.json['_revisions'] as Map<String, dynamic>);
 
   /// Holds document object
   ///
@@ -56,7 +56,7 @@ class DocumentsResponse {
   /// This properties are listed separately in [DocumentsResponse] and you can get them directly.
   ///
   /// Returns by [Documents.doc]
-  final Map<String, Object> doc;
+  final Map<String, dynamic> doc;
 
   /// Holds operation status. Available in case of success
   final bool ok;
@@ -68,7 +68,7 @@ class DocumentsResponse {
   final String rev;
 
   /// Attachment's raw data
-  final Object? attachment;
+  final dynamic attachment;
 
   /// List of conflicted revisions
   final List<String> conflicts;
@@ -83,8 +83,8 @@ class DocumentsResponse {
   final String localSeq;
 
   /// List of objects with information about local revisions and their status
-  final List<Map<String, Object>> revsInfo;
+  final List<Map<String, dynamic>> revsInfo;
 
   /// List of local revision tokens without
-  final Map<String, Object> revisions;
+  final Map<String, dynamic> revisions;
 }

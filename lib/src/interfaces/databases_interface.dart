@@ -77,7 +77,7 @@ abstract class DatabasesInterface {
   ///     "rev": "1-9c65296036141e575d32ba9c034dd3ee"
   /// }
   /// ```
-  Future<DatabasesResponse> createDocIn(String dbName, Map<String, Object> doc,
+  Future<DatabasesResponse> createDocIn(String dbName, Map<String, dynamic> doc,
       {required String batch, Map<String, String> headers});
 
   /// Executes the built-in _all_docs view, returning all of the documents in the database
@@ -108,7 +108,7 @@ abstract class DatabasesInterface {
   Future<DatabasesResponse> allDocs(String dbName,
       {bool conflicts = false,
       bool descending = false,
-      Object endKey,
+      dynamic endKey,
       String endKeyDocId,
       bool group = false,
       int groupLevel,
@@ -116,15 +116,15 @@ abstract class DatabasesInterface {
       bool attachments = false,
       bool altEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object key,
-      List<Object> keys,
+      dynamic key,
+      List<dynamic> keys,
       int limit,
       bool reduce,
       int skip,
       bool sorted = true,
       bool stable = false,
       String stale,
-      Object startKey,
+      dynamic startKey,
       String startKeyDocId,
       String update,
       bool updateSeq = false});
@@ -289,7 +289,7 @@ abstract class DatabasesInterface {
   /// }
   /// ```
   Future<DatabasesResponse> queriesDocsFrom(
-      String dbName, List<Map<String, Object>> queries);
+      String dbName, List<Map<String, dynamic>> queries);
 
   /// Queries several documents in bulk
   ///
@@ -358,7 +358,7 @@ abstract class DatabasesInterface {
   ///   ]
   /// }
   /// ```
-  Future<DatabasesResponse> bulkDocs(String dbName, List<Object> docs,
+  Future<DatabasesResponse> bulkDocs(String dbName, List<dynamic> docs,
       {required bool revs});
 
   /// Creates and updates multiple documents at the same time within a single request
@@ -378,7 +378,7 @@ abstract class DatabasesInterface {
   ///     }
   /// ]
   /// ```
-  Future<DatabasesResponse> insertBulkDocs(String dbName, List<Object> docs,
+  Future<DatabasesResponse> insertBulkDocs(String dbName, List<dynamic> docs,
       {bool newEdits = true, Map<String, String> headers});
 
   /// Find documents using a declarative JSON querying syntax
@@ -409,12 +409,12 @@ abstract class DatabasesInterface {
   ///     }
   /// }
   /// ```
-  Future<DatabasesResponse> find(String dbName, Map<String, Object> selector,
+  Future<DatabasesResponse> find(String dbName, Map<String, dynamic> selector,
       {int limit = 25,
       int skip,
-      List<Object> sort,
+      List<dynamic> sort,
       List<String> fields,
-      Object useIndex,
+      dynamic useIndex,
       int r = 1,
       String bookmark,
       bool update = true,
@@ -438,7 +438,7 @@ abstract class DatabasesInterface {
     String ddoc,
     String name,
     String type = 'json',
-    Map<String, Object> partialFilterSelector,
+    Map<String, dynamic> partialFilterSelector,
   });
 
   /// Gets a list of all indexes in the database
@@ -546,12 +546,13 @@ abstract class DatabasesInterface {
   ///     }
   /// }
   /// ```
-  Future<DatabasesResponse> explain(String dbName, Map<String, Object> selector,
+  Future<DatabasesResponse> explain(
+      String dbName, Map<String, dynamic> selector,
       {int limit = 25,
       int skip,
-      List<Object> sort,
+      List<dynamic> sort,
       List<String> fields,
-      Object useIndex,
+      dynamic useIndex,
       int r = 1,
       String bookmark,
       bool update = true,

@@ -94,7 +94,7 @@ class LocalDocuments implements LocalDocumentsInterface {
     bool latest = false,
     bool localSeq = false,
     bool meta = false,
-    Object? openRevs,
+    dynamic openRevs,
     String? rev,
     bool revs = false,
     bool revsInfo = false,
@@ -148,7 +148,7 @@ class LocalDocuments implements LocalDocumentsInterface {
   Future<LocalDocumentsResponse> putLocalDoc(
     String dbName,
     String docId,
-    Map<String, Object> body, {
+    Map<String, dynamic> body, {
     Map<String, String> headers = const <String, String>{},
     String? rev,
     String? batch,

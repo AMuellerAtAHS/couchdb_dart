@@ -38,13 +38,13 @@ class CouchDbClient implements ClientInterface {
       : secret = utf8.encode(secret ?? '') {
     if (username == null && password != null) {
       throw CouchDbException(401,
-          response: ApiResponse(<String, Object>{
+          response: ApiResponse(<String, dynamic>{
             'error': 'Authorization failed',
             'reason': 'You must provide username if password is non null!'
           }).errorResponse()!);
     } else if (username != null && password == null) {
       throw CouchDbException(401,
-          response: ApiResponse(<String, Object>{
+          response: ApiResponse(<String, dynamic>{
             'error': 'Authorization failed',
             'reason': 'You must provide password if username is non null!'
           }).errorResponse()!);
@@ -199,7 +199,7 @@ class CouchDbClient implements ClientInterface {
   @override
   Future<ApiResponse> get(String path,
       {Map<String, String> reqHeaders = const {}}) async {
-    Map<String, Object> json;
+    Map<String, dynamic> json;
 
     modifyRequestHeaders(reqHeaders);
 
@@ -212,16 +212,16 @@ class CouchDbClient implements ClientInterface {
       final resBody = jsonDecode(bodyUTF8);
 
       if (resBody is int) {
-        json = <String, Object>{'limit': resBody};
+        json = <String, dynamic>{'limit': resBody};
       } else if (resBody is List) {
-        json = <String, Object>{'list': List<Object>.from(resBody)};
+        json = <String, dynamic>{'list': List<dynamic>.from(resBody)};
       } else {
-        json = Map<String, Object>.from(resBody);
+        json = Map<String, dynamic>.from(resBody);
       }
     } else {
       // When body isn't JSON-valid then ApiResponse try parse field from [json]
       // and if it is null - error is thrown
-      json = <String, Object>{};
+      json = <String, dynamic>{};
     }
 
     _checkForErrorStatusCode(res.statusCode,
@@ -234,12 +234,12 @@ class CouchDbClient implements ClientInterface {
   @override
   Future<ApiResponse> put(
     String path, {
-    Object? body,
+    dynamic body,
     Map<String, String> reqHeaders = const {},
   }) async {
     modifyRequestHeaders(reqHeaders);
 
-    Object? encodedBody;
+    dynamic encodedBody;
     if (body != null) {
       body is Map ? encodedBody = jsonEncode(body) : encodedBody = body;
     }
@@ -249,7 +249,7 @@ class CouchDbClient implements ClientInterface {
 
     final bodyUTF8 = utf8.decode(res.bodyBytes);
     final resBody = jsonDecode(bodyUTF8);
-    final json = Map<String, Object>.from(resBody);
+    final json = Map<String, dynamic>.from(resBody);
 
     _checkForErrorStatusCode(res.statusCode,
         body: bodyUTF8, headers: res.headers);
@@ -261,12 +261,12 @@ class CouchDbClient implements ClientInterface {
   @override
   Future<ApiResponse> post(
     String path, {
-    Object? body,
+    dynamic body,
     Map<String, String> reqHeaders = const {},
   }) async {
     modifyRequestHeaders(reqHeaders);
 
-    Object? encodedBody;
+    dynamic encodedBody;
     if (body != null) {
       body is Map ? encodedBody = jsonEncode(body) : encodedBody = body;
     }
@@ -277,11 +277,11 @@ class CouchDbClient implements ClientInterface {
     final bodyUTF8 = utf8.decode(res.bodyBytes);
     final resBody = jsonDecode(bodyUTF8);
 
-    Map<String, Object> json;
+    Map<String, dynamic> json;
     if (resBody is List) {
-      json = <String, Object>{'list': List<Object>.from(resBody)};
+      json = <String, dynamic>{'list': List<dynamic>.from(resBody)};
     } else {
-      json = Map<String, Object>.from(resBody);
+      json = Map<String, dynamic>.from(resBody);
     }
 
     _checkForErrorStatusCode(res.statusCode,
@@ -303,7 +303,7 @@ class CouchDbClient implements ClientInterface {
 
     final bodyUTF8 = utf8.decode(res.bodyBytes);
     final resBody = jsonDecode(bodyUTF8);
-    final json = Map<String, Object>.from(resBody);
+    final json = Map<String, dynamic>.from(resBody);
 
     _checkForErrorStatusCode(res.statusCode,
         body: bodyUTF8, headers: res.headers);
@@ -326,7 +326,7 @@ class CouchDbClient implements ClientInterface {
     final body = await res.stream.transform(utf8.decoder).join();
 
     final resBody = jsonDecode(body);
-    final json = Map<String, Object>.from(resBody);
+    final json = Map<String, dynamic>.from(resBody);
 
     _checkForErrorStatusCode(res.statusCode, body: body, headers: res.headers);
 
@@ -341,7 +341,7 @@ class CouchDbClient implements ClientInterface {
   Future<Stream<String>> streamed(
     String method,
     String path, {
-    Object? body,
+    dynamic body,
     Map<String, String> reqHeaders = const {},
   }) async {
     modifyRequestHeaders(reqHeaders);
@@ -426,7 +426,7 @@ class CouchDbClient implements ClientInterface {
   }
 
   /// Returns information about the authenticated user, including a
-  /// User Context Object, the authentication method and database
+  /// User Context dynamic, the authentication method and database
   /// that were used, and a list of configured
   /// authentication handlers on the server
   ///

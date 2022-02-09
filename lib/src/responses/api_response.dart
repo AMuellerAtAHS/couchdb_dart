@@ -9,7 +9,7 @@ class ApiResponse {
   String? raw;
 
   /// Field that contain json itself in order to grab custom fields
-  final Map<String, Object> json;
+  final Map<String, dynamic> json;
 
   /// Headers of response
   Map<String, String> headers;

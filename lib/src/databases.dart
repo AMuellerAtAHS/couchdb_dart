@@ -72,7 +72,7 @@ class Databases implements DatabasesInterface {
   }
 
   @override
-  Future<DatabasesResponse> createDocIn(String dbName, Map<String, Object> doc,
+  Future<DatabasesResponse> createDocIn(String dbName, Map<String, dynamic> doc,
       {required String batch, Map<String, String> headers = const {}}) async {
     final path = '$dbName${includeNonNullParam('?batch', batch)}';
 
@@ -84,7 +84,7 @@ class Databases implements DatabasesInterface {
   Future<DatabasesResponse> allDocs(String dbName,
       {bool conflicts = false,
       bool descending = false,
-      Object endKey = '',
+      dynamic endKey = '',
       String endKeyDocId = '',
       bool group = false,
       int? groupLevel,
@@ -92,15 +92,15 @@ class Databases implements DatabasesInterface {
       bool attachments = false,
       bool altEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object? key,
-      List<Object> keys = const [],
+      dynamic key,
+      List<dynamic> keys = const [],
       int? limit,
       bool? reduce,
       int? skip,
       bool sorted = true,
       bool stable = false,
       String? stale,
-      Object? startKey,
+      dynamic startKey,
       String? startKeyDocId,
       String? update,
       bool updateSeq = false}) async {
@@ -187,43 +187,43 @@ class Databases implements DatabasesInterface {
 
   @override
   Future<DatabasesResponse> queriesDocsFrom(
-      String dbName, List<Map<String, Object>> queries) async {
-    final body = <String, List<Map<String, Object>>>{'queries': queries};
+      String dbName, List<Map<String, dynamic>> queries) async {
+    final body = <String, List<Map<String, dynamic>>>{'queries': queries};
     final result = await _client.post('$dbName/_all_docs/queries', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<DatabasesResponse> bulkDocs(String dbName, List<Object> docs,
+  Future<DatabasesResponse> bulkDocs(String dbName, List<dynamic> docs,
       {required bool revs}) async {
-    final body = <String, List<Object>>{'docs': docs};
+    final body = <String, List<dynamic>>{'docs': docs};
     final result = await _client.post('$dbName?revs=$revs', body: body);
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<DatabasesResponse> insertBulkDocs(String dbName, List<Object> docs,
+  Future<DatabasesResponse> insertBulkDocs(String dbName, List<dynamic> docs,
       {bool newEdits = true, Map<String, String> headers = const {}}) async {
-    final body = <String, Object>{'docs': docs, 'new_edits': newEdits};
+    final body = <String, dynamic>{'docs': docs, 'new_edits': newEdits};
     final result = await _client.post('$dbName/_bulk_docs',
         body: body, reqHeaders: headers);
     return DatabasesResponse.from(result);
   }
 
   @override
-  Future<DatabasesResponse> find(String dbName, Map<String, Object> selector,
+  Future<DatabasesResponse> find(String dbName, Map<String, dynamic> selector,
       {int limit = 25,
       int? skip,
-      List<Object>? sort,
+      List<dynamic>? sort,
       List<String>? fields,
-      Object? useIndex,
+      dynamic useIndex,
       int r = 1,
       String bookmark = '',
       bool update = true,
       bool? stable,
       String stale = 'false',
       bool executionStats = false}) async {
-    final body = <String, Object>{
+    final body = <String, dynamic>{
       'selector': selector,
       'limit': limit,
       'r': r,
@@ -259,9 +259,9 @@ class Databases implements DatabasesInterface {
     String? ddoc,
     String? name,
     String type = 'json',
-    Map<String, Object>? partialFilterSelector,
+    Map<String, dynamic>? partialFilterSelector,
   }) async {
-    final body = <String, Object>{
+    final body = <String, dynamic>{
       'index': <String, List<String>>{'fields': indexFields},
       'type': type
     };
@@ -295,12 +295,12 @@ class Databases implements DatabasesInterface {
   @override
   Future<DatabasesResponse> explain(
     String dbName,
-    Map<String, Object> selector, {
+    Map<String, dynamic> selector, {
     int limit = 25,
     int? skip,
-    List<Object>? sort,
+    List<dynamic>? sort,
     List<String>? fields,
-    Object? useIndex,
+    dynamic useIndex,
     int r = 1,
     String bookmark = '',
     bool update = true,
@@ -308,7 +308,7 @@ class Databases implements DatabasesInterface {
     String stale = 'false',
     bool executionStats = false,
   }) async {
-    final body = <String, Object>{
+    final body = <String, dynamic>{
       'selector': selector,
       'limit': limit,
       'r': r,
@@ -588,8 +588,7 @@ class Databases implements DatabasesInterface {
   @override
   Future<DatabasesResponse> missingRevs(
       String dbName, Map<String, List<String>> revs) async {
-    final result =
-        await _client.post('$dbName/_missing_revs', body: revs);
+    final result = await _client.post('$dbName/_missing_revs', body: revs);
     return DatabasesResponse.from(result);
   }
 

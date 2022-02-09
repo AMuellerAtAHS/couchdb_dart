@@ -58,7 +58,7 @@ class Server implements ServerInterface {
     List<String>? ensureDbsExist,
     Map<String, String> headers = const <String, String>{},
   }) async {
-    final body = <String, Object>{'action': action};
+    final body = <String, dynamic>{'action': action};
 
     switch (action) {
       case 'enable_single_node':
@@ -159,11 +159,11 @@ class Server implements ServerInterface {
     List<String>? docIds,
     String? filterFunJS,
     String? proxy,
-    Object? source,
-    Object? target,
+    dynamic source,
+    dynamic target,
     Map<String, String> headers = const <String, String>{},
   }) async {
-    final body = <String, Object>{};
+    final body = <String, dynamic>{};
 
     if (cancel != null) {
       body['cancel'] = cancel;

@@ -51,91 +51,63 @@ class DatabasesResponse {
 
   /// Returns response with fields that may be returned by `Databases`
   /// request methods
-  DatabasesResponse.from(ApiResponse response) : this(
-      cluster: (response.json['cluster'] as Map<String, dynamic>?)
-          ?.map((k, v) => MapEntry<String, int>(k, v as int)),
-      compactRunning: response.json['compact_running'] as bool,
-      dbName: (response.json['db_name'] ?? response.json['dbname']) as String,
-      diskFormatVersion: response.json['disk_format_version'] as int,
-      docCount: response.json['doc_count'] as int,
-      docDelCount: response.json['doc_del_count'] as int,
-      purgeSeq: response.json['purge_seq'] as String,
-      sizes: (response.json['sizes'] as Map<String, dynamic>?)
-          ?.map((k, v) => MapEntry<String, int>(k, v as int)),
-      updateSeq: response.json['update_seq'] as String,
-      ok: response.json['ok'] as bool?,
-      id: response.json['id'] as String?,
-      rev: response.json['rev'] as String?,
-      offset: response.json['offset'] as int?,
-      rows: (response.json['rows'] as List<Object>?)
-          ?.map((e) => e as Map<String, Object>)
-          .toList(),
-      totalRows: response.json['total_rows'] as int?,
-      results: (response.json['results'] as List<Object>?)
-          ?.map((e) => e as Map<String, Object>)
-          .toList(),
-      docs: (response.json['docs'] as List<Object>?)
-          ?.map((e) => e as Map<String, Object>)
-          .toList(),
-      warning: response.json['warning'] as String?,
-      executionStats: (response.json['execution_stats'] as Map<String, dynamic>?)
-          ?.map((k, v) => MapEntry<String, num>(k, v as num)),
-      bookmark: response.json['bookmark'] as String?,
-      result: response.json['result'] as String?,
-      name: response.json['name'] as String?,
-      indexes: (response.json['indexes'] as List<Object>?)
-          ?.map((e) => e as Map<String, Object>)
-          .toList(),
-      index: response.json['index'] as Map<String, Object>?,
-      selector: (response.json['selector'] as Map<String, Object>?)?.map((k,
-          v) =>
-          MapEntry<String, Map<String, Object>>(k, v as Map<String, Object>)),
-      opts: response.json['opts'] as Map<String, Object>?,
-      limit: response.json['limit'] as int?,
-      skip: response.json['skip'] as int?,
-      fields: response.json['fields'] is String ? <String>[
-        response.json['fields'] as String
-      ] : (response.json['fields'] as List<Object>?)
-          ?.map((e) => e as String)
-          .toList(),
-      range: response.json['range'] is Map<String, Object>? (response
-          .json['range'] as Map<String, Object>).map((k, v) =>
-          MapEntry(k, v as List<Object>)) : null,
-      lastSeq: response.json['last_seq'] as String?,
-      pending: response.json['pending'] as int?,
-      admins: (response.json['admins'] as Map<String, Object>?)?.map((k, v) =>
-          MapEntry<String, List<String>>(
-              k, (v as List<Object>).map((e) => e as String).toList())),
-      members: (response.json['members'] as Map<String, Object>?)?.map((k, v) =>
-          MapEntry<String, List<String>>(
-              k, (v as List<Object>).map((e) => e as String).toList())),
-      purged: (response.json['purged'] as Map<String, Object>?)?.map((k, v) =>
-          MapEntry<String, Map<String, List<String>>>(k,
-              (v as Map<String, Object>).map((k, v) =>
-                  MapEntry<String, List<String>>(k, (v as List<Object>)
-                      .map((e) => e as String)
-                      .toList())))),
-      missedRevs: (response.json['missed_revs'] as Map<String, Object>?)?.map((k,
-          v) =>
-          MapEntry<String, List<String>>(
-              k, (v as List<Object>).map((e) => e as String).toList())),
-      revsDiff: response.json.keys.every(RegExp('[a-z0-9-]{32,36}').hasMatch)
-          ? response.json.map((k, v) =>
-          MapEntry<String, Map<String, List<String>>>(k,
-              (v as Map<String, Object>).map((k, v) =>
-                  MapEntry<String, List<String>>(k,
-                      (v as List<Object>).map((e) => e as String).toList()))))
-          : null,
-      list: (response.json['list'] as List<Object>?)?.map((e) =>
-      e as Map<String, Object>).toList(),
-      shards: (response.json['shards'] as Map<String, Object>?)?.map((k, v) =>
-          MapEntry<String, List<String>>(
-              k, (v as List<Object>).map((v) => v as String).toList())),
-      shardRange: response.json['range'] is String? ? response
-          .json['range'] as String? : null,
-      nodes: (response.json['nodes'] as List<Object>?)
-          ?.map((v) => v as String)
-          .toList());
+  DatabasesResponse.from(ApiResponse response)
+      : this(
+            cluster: (response.json['cluster'] as Map<String, dynamic>?)
+                ?.map((k, v) => MapEntry<String, int>(k, v as int)),
+            compactRunning: response.json['compact_running'] as bool,
+            dbName:
+                (response.json['db_name'] ?? response.json['dbname']) as String,
+            diskFormatVersion: response.json['disk_format_version'] as int,
+            docCount: response.json['doc_count'] as int,
+            docDelCount: response.json['doc_del_count'] as int,
+            purgeSeq: response.json['purge_seq'] as String,
+            sizes: (response.json['sizes'] as Map<String, dynamic>?)
+                ?.map((k, v) => MapEntry<String, int>(k, v as int)),
+            updateSeq: response.json['update_seq'] as String,
+            ok: response.json['ok'] as bool?,
+            id: response.json['id'] as String?,
+            rev: response.json['rev'] as String?,
+            offset: response.json['offset'] as int?,
+            rows: (response.json['rows'] as List<dynamic>?)
+                ?.map((e) => e as Map<String, dynamic>)
+                .toList(),
+            totalRows: response.json['total_rows'] as int?,
+            results: (response.json['results'] as List<dynamic>?)
+                ?.map((e) => e as Map<String, dynamic>)
+                .toList(),
+            docs: (response.json['docs'] as List<dynamic>?)
+                ?.map((e) => e as Map<String, dynamic>)
+                .toList(),
+            warning: response.json['warning'] as String?,
+            executionStats:
+                (response.json['execution_stats'] as Map<String, dynamic>?)
+                    ?.map((k, v) => MapEntry<String, num>(k, v as num)),
+            bookmark: response.json['bookmark'] as String?,
+            result: response.json['result'] as String?,
+            name: response.json['name'] as String?,
+            indexes: (response.json['indexes'] as List<dynamic>?)
+                ?.map((e) => e as Map<String, dynamic>)
+                .toList(),
+            index: response.json['index'] as Map<String, dynamic>?,
+            selector: (response.json['selector'] as Map<String, dynamic>?)?.map(
+                (k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            opts: response.json['opts'] as Map<String, dynamic>?,
+            limit: response.json['limit'] as int?,
+            skip: response.json['skip'] as int?,
+            fields: response.json['fields'] is String ? <String>[response.json['fields'] as String] : (response.json['fields'] as List<dynamic>?)?.map((e) => e as String).toList(),
+            range: response.json['range'] is Map<String, dynamic> ? (response.json['range'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v as List<dynamic>)) : null,
+            lastSeq: response.json['last_seq'] as String?,
+            pending: response.json['pending'] as int?,
+            admins: (response.json['admins'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, List<String>>(k, (v as List<dynamic>).map((e) => e as String).toList())),
+            members: (response.json['members'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, List<String>>(k, (v as List<dynamic>).map((e) => e as String).toList())),
+            purged: (response.json['purged'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, List<String>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, List<String>>(k, (v as List<dynamic>).map((e) => e as String).toList())))),
+            missedRevs: (response.json['missed_revs'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, List<String>>(k, (v as List<dynamic>).map((e) => e as String).toList())),
+            revsDiff: response.json.keys.every(RegExp('[a-z0-9-]{32,36}').hasMatch) ? response.json.map((k, v) => MapEntry<String, Map<String, List<String>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, List<String>>(k, (v as List<dynamic>).map((e) => e as String).toList())))) : null,
+            list: (response.json['list'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList(),
+            shards: (response.json['shards'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, List<String>>(k, (v as List<dynamic>).map((v) => v as String).toList())),
+            shardRange: response.json['range'] is String? ? response.json['range'] as String? : null,
+            nodes: (response.json['nodes'] as List<dynamic>?)?.map((v) => v as String).toList());
 
   /// Holds cluster's info
   final Map<String, int>? cluster;
@@ -184,7 +156,7 @@ class DatabasesResponse {
   final int? offset;
 
   /// List of documents returned by search
-  final List<Map<String, Object>?>? rows;
+  final List<Map<String, dynamic>?>? rows;
 
   /// Holds total number of documents returned by search
   final int? totalRows;
@@ -193,10 +165,10 @@ class DatabasesResponse {
   ///
   /// Returned by [Databases.queriesDocsFrom], [Databases.bulkDocs],
   /// [Databases.changesIn]
-  final List<Map<String, Object>>? results;
+  final List<Map<String, dynamic>>? results;
 
   /// Holds documents matching the search
-  final List<Map<String, Object>>? docs;
+  final List<Map<String, dynamic>>? docs;
 
   /// Holds execution warnings
   final String? warning;
@@ -215,16 +187,16 @@ class DatabasesResponse {
   final String? name;
 
   /// Holds array of index definitions
-  final List<Map<String, Object>>? indexes;
+  final List<Map<String, dynamic>>? indexes;
 
   /// Index used to fulfill the query
-  final Map<String, Object>? index;
+  final Map<String, dynamic>? index;
 
   /// Holds query selector used
-  final Map<String, Map<String, Object>>? selector;
+  final Map<String, Map<String, dynamic>>? selector;
 
   /// Holds query options used
-  final Map<String, Object>? opts;
+  final Map<String, dynamic>? opts;
 
   /// Holds limit parameter used
   ///
@@ -238,7 +210,7 @@ class DatabasesResponse {
   final List<String>? fields;
 
   /// Range parameters passed to the underlying view
-  final Map<String, List<Object>>? range;
+  final Map<String, List<dynamic>>? range;
 
   /// Last change update sequence info
   final String? lastSeq;
@@ -266,7 +238,7 @@ class DatabasesResponse {
   /// List of some objects (if JSON itself is list)
   ///
   /// Returned by [Databases.insertBulkDocs]
-  final List<Map<String, Object>>? list;
+  final List<Map<String, dynamic>>? list;
 
   /// Mapping of shard ranges to individual shard replicas on each
   /// node in the cluster

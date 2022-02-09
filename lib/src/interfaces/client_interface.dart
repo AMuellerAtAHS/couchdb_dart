@@ -17,14 +17,14 @@ abstract class ClientInterface {
   /// PUT method
   Future<ApiResponse> put(
     String path, {
-    Object? body,
+    dynamic body,
     Map<String, String> reqHeaders = const {},
   });
 
   /// POST method
   Future<ApiResponse> post(
     String path, {
-    Object? body,
+    dynamic body,
     Map<String, String> reqHeaders = const {},
   });
 
@@ -47,7 +47,7 @@ abstract class ClientInterface {
   Future<Stream<String>> streamed(
     String method,
     String path, {
-    Object? body,
+    dynamic body,
     Map<String, String> reqHeaders = const {},
   });
 
@@ -76,7 +76,7 @@ abstract class ClientInterface {
   Future<ApiResponse> logout();
 
   /// Returns information about the authenticated user, including a
-  /// User Context Object, the authentication method and database
+  /// User Context dynamic, the authentication method and database
   /// that were used, and a list of configured
   /// authentication handlers on the server
   ///

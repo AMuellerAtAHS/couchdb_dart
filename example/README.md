@@ -43,14 +43,14 @@ Future<void> main(List<String> args) async {
   try {
     final DocumentsResponse response1 = await dm.doc('some_db', 'some_doc_id');
 
-    final Map<String, Object> doc = response1.doc;
+    final Map<String, dynamic> doc = response1.doc;
 
     // Some code here
 
     // There properties are extracted from [doc] in order to gets direct access
     final String id = response1.id;
     final String rev = response1.rev;
-    final Object attachment = response1.attachment;
+    final dynamic attachment = response1.attachment;
 
     // Another code here
 

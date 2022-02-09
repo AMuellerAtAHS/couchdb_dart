@@ -3,7 +3,7 @@ import 'dart:convert';
 // todo (20th March 2021) review whether or not these are needed anymore
 
 /// Method for including only non-null parameter to path
-String includeNonNullParam(String name, Object value) =>
+String includeNonNullParam(String name, dynamic value) =>
     value != null ? '$name=$value' : '';
 
 /// If value != null, returns value as a JSON-encoded value, for use in a url.
@@ -13,5 +13,5 @@ String includeNonNullParam(String name, Object value) =>
 /// values rather than bare strings. Mostly this amounts to adding
 /// quotation marks on either side of the string and escaping
 /// special characters.
-String includeNonNullJsonParam(String name, Object value) =>
+String includeNonNullJsonParam(String name, dynamic value) =>
     value != null ? '$name=${jsonEncode(value)}' : '';

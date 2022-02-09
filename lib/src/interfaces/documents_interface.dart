@@ -5,7 +5,6 @@ import '../responses/documents_response.dart';
 
 /// Class that define methods for create, read, update and delete documents within a database
 abstract class DocumentsInterface {
-
   /// Returns the HTTP Headers containing a minimal amount of information about the specified document
   Future<DocumentsResponse> docInfo(String dbName, String docId,
       {Map<String, String> headers,
@@ -17,7 +16,7 @@ abstract class DocumentsInterface {
       bool latest = false,
       bool localSeq = false,
       bool meta = false,
-      Object openRevs,
+      dynamic openRevs,
       String rev,
       bool revs = false,
       bool revsInfo = false});
@@ -48,7 +47,7 @@ abstract class DocumentsInterface {
       bool latest = false,
       bool localSeq = false,
       bool meta = false,
-      Object openRevs,
+      dynamic openRevs,
       String rev,
       bool revs = false,
       bool revsInfo = false});
@@ -64,7 +63,7 @@ abstract class DocumentsInterface {
   /// }
   /// ```
   Future<DocumentsResponse> insertDoc(
-      String dbName, String docId, Map<String, Object> body,
+      String dbName, String docId, Map<String, dynamic> body,
       {Map<String, String> headers,
       String rev,
       String batch,
@@ -80,8 +79,7 @@ abstract class DocumentsInterface {
   ///     "rev": "1-917fa2381192822767f010b95b45325b"
   /// }
   /// ```
-  Future<DocumentsResponse> deleteDoc(
-      String dbName, String docId, String rev,
+  Future<DocumentsResponse> deleteDoc(String dbName, String docId, String rev,
       {Map<String, String> headers, String batch});
 
   /// Copies an existing document to a new or existing document.
@@ -130,7 +128,7 @@ abstract class DocumentsInterface {
   /// }
   /// ```
   Future<DocumentsResponse> uploadAttachment(
-      String dbName, String docId, String attName, Object body,
+      String dbName, String docId, String attName, dynamic body,
       {Map<String, String> headers, String rev});
 
   /// Deletes the attachment with filename [attName] of the specified [docId]

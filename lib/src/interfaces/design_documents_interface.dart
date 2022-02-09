@@ -4,10 +4,8 @@ import '../responses/design_documents_response.dart';
 
 /// Class that contains methods that allow operate with design documents
 abstract class DesignDocumentsInterface {
-
   /// Returns the HTTP Headers containing a minimal amount of information about the specified design document
-  Future<DesignDocumentsResponse> designDocHeaders(
-      String dbName, String ddocId,
+  Future<DesignDocumentsResponse> designDocHeaders(String dbName, String ddocId,
       {Map<String, String> headers,
       bool attachments = false,
       bool attEncodingInfo = false,
@@ -17,7 +15,7 @@ abstract class DesignDocumentsInterface {
       bool latest = false,
       bool localSeq = false,
       bool meta = false,
-      Object openRevs,
+      dynamic openRevs,
       String rev,
       bool revs = false,
       bool revsInfo = false});
@@ -34,7 +32,7 @@ abstract class DesignDocumentsInterface {
       bool latest = false,
       bool localSeq = false,
       bool meta = false,
-      Object openRevs,
+      dynamic openRevs,
       String rev,
       bool revs = false,
       bool revsInfo = false});
@@ -57,7 +55,7 @@ abstract class DesignDocumentsInterface {
   /// source code. For `views` mapping is the same except that values are objects with `map` and `reduce` (optional) keys
   /// which also contains functions source code.
   Future<DesignDocumentsResponse> insertDesignDoc(
-      String dbName, String ddocId, Map<String, Object> body,
+      String dbName, String ddocId, Map<String, dynamic> body,
       {Map<String, String> headers,
       String rev,
       String batch,
@@ -69,8 +67,7 @@ abstract class DesignDocumentsInterface {
       {Map<String, String> headers, String batch});
 
   /// Copies an existing design document to a new or existing one
-  Future<DesignDocumentsResponse> copyDesignDoc(
-      String dbName, String ddocId,
+  Future<DesignDocumentsResponse> copyDesignDoc(String dbName, String ddocId,
       {Map<String, String> headers, String rev, String batch});
 
   /// Returns the HTTP headers containing a minimal amount of information about the specified attachment
@@ -88,7 +85,7 @@ abstract class DesignDocumentsInterface {
   /// You must supply the `Content-Type` header, and for an existing document
   /// you must also supply either the [rev] query argument or the `If-Match` HTTP header
   Future<DesignDocumentsResponse> uploadAttachment(
-      String dbName, String ddocId, String attName, Object body,
+      String dbName, String ddocId, String attName, dynamic body,
       {Map<String, String> headers, String rev});
 
   /// Deletes the attachment of the specified design document
@@ -117,8 +114,7 @@ abstract class DesignDocumentsInterface {
   ///     }
   /// }
   /// ```
-  Future<DesignDocumentsResponse> designDocInfo(
-      String dbName, String ddocId,
+  Future<DesignDocumentsResponse> designDocInfo(String dbName, String ddocId,
       {Map<String, String> headers});
 
   /// Executes the specified view function from the specified design document
@@ -157,7 +153,7 @@ abstract class DesignDocumentsInterface {
       String dbName, String ddocId, String viewName,
       {bool conflicts = false,
       bool descending = false,
-      Object endKey,
+      dynamic endKey,
       String endKeyDocId,
       bool group = false,
       int groupLevel,
@@ -165,15 +161,15 @@ abstract class DesignDocumentsInterface {
       bool attachments = false,
       bool attEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object key,
-      List<Object> keys,
+      dynamic key,
+      List<dynamic> keys,
       int limit,
       bool reduce = false, // in implementation class
       int skip = 0,
       bool sorted = true,
       bool stable = false,
       String stale,
-      Object startKey,
+      dynamic startKey,
       String startKeyDocId,
       String update = 'true',
       bool updateSeq = false,
@@ -205,10 +201,10 @@ abstract class DesignDocumentsInterface {
   /// ```
   Future<DesignDocumentsResponse> executeViewFunctionWithKeys(
       String dbName, String ddocId, String viewName,
-      {required List<Object> keys,
+      {required List<dynamic> keys,
       bool conflicts = false,
       bool descending = false,
-      Object endKey,
+      dynamic endKey,
       String endKeyDocId,
       bool group = false,
       int groupLevel,
@@ -216,14 +212,14 @@ abstract class DesignDocumentsInterface {
       bool attachments = false,
       bool attEncodingInfo = false,
       bool inclusiveEnd = true,
-      Object key,
+      dynamic key,
       int limit,
       bool reduce = false, // in implementing class
       int skip = 0,
       bool sorted = true,
       bool stable = false,
       String stale,
-      Object startKey,
+      dynamic startKey,
       String startKeyDocId,
       String update = 'true',
       bool updateSeq = false,
@@ -293,7 +289,7 @@ abstract class DesignDocumentsInterface {
   /// }
   /// ```
   Future<DesignDocumentsResponse> executeViewQueries(
-      String dbName, String ddocId, String viewName, List<Object> queries);
+      String dbName, String ddocId, String viewName, List<dynamic> queries);
 
   /// Applies show function for null document
   ///
@@ -347,11 +343,15 @@ abstract class DesignDocumentsInterface {
   /// ```
   /// for success exucution or error for fail.
   Future<DesignDocumentsResponse> executeUpdateFunctionForNull(
-      String dbName, String ddocId, String funcName, Object body);
+      String dbName, String ddocId, String funcName, dynamic body);
 
   /// Executes update function on server side for the specified document
   Future<DesignDocumentsResponse> executeUpdateFunctionForDocument(
-      String dbName, String ddocId, String funcName, String docId, Object body);
+      String dbName,
+      String ddocId,
+      String funcName,
+      String docId,
+      dynamic body);
 
   /// Rewrites the specified path by rules defined in the specified design document
   ///

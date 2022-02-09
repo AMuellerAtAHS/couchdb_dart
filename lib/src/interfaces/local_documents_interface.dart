@@ -123,7 +123,7 @@ abstract class LocalDocumentsInterface {
     bool latest = false,
     bool localSeq = false,
     bool meta = false,
-    Object openRevs,
+    dynamic openRevs,
     String rev,
     bool revs = false,
     bool revsInfo = false,
@@ -135,7 +135,7 @@ abstract class LocalDocumentsInterface {
   Future<LocalDocumentsResponse> putLocalDoc(
     String dbName,
     String docId,
-    Map<String, Object> body, {
+    Map<String, dynamic> body, {
     Map<String, String> headers,
     String rev,
     String batch,
