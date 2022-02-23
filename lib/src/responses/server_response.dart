@@ -5,144 +5,142 @@ class ServerResponse {
   /// Creates instance of [ServerResponse]
   ServerResponse({
     this.couchDbMessage,
-    required this.uuid,
-    required this.vendor,
-    required this.version,
-    required this.state,
-    required this.results,
-    required this.lastSeq,
-    required this.allNodes,
-    required this.clusterNodes,
-    required this.history,
-    required this.ok,
-    required this.replicationIdVersion,
-    required this.sessionId,
-    required this.sourceLastSeq,
-    required this.offset,
-    required this.totalRows,
-    required this.id,
-    required this.database,
-    required this.docId,
-    required this.pid,
-    required this.node,
-    required this.source,
-    required this.target,
-    required this.startTime,
-    required this.lastUpdate,
-    required this.info,
-    required this.errorCount,
-    required this.fabric,
-    required this.ddocCache,
+    this.uuid,
+    this.vendor,
+    this.version,
+    this.state,
+    this.results,
+    this.lastSeq,
+    this.allNodes,
+    this.clusterNodes,
+    this.history,
+    this.ok,
+    this.replicationIdVersion,
+    this.sessionId,
+    this.sourceLastSeq,
+    this.offset,
+    this.totalRows,
+    this.id,
+    this.database,
+    this.docId,
+    this.pid,
+    this.node,
+    this.source,
+    this.target,
+    this.startTime,
+    this.lastUpdate,
+    this.info,
+    this.errorCount,
+    this.fabric,
+    this.ddocCache,
     this.couchDb,
-    required this.pread,
-    required this.couchReplicator,
-    required this.mem3,
-    required this.couchLog,
-    required this.rexi,
-    required this.globalChanges,
-    required this.uptime,
-    required this.memory,
-    required this.runQueue,
-    required this.etsTableCount,
-    required this.contextSwitches,
-    required this.reductions,
-    required this.garbageCollectionCount,
-    required this.wordsReclaimed,
-    required this.ioInput,
-    required this.ioOutput,
-    required this.osProcCount,
-    required this.staleProcCount,
-    required this.processCount,
-    required this.processLimit,
-    required this.messageQueues,
-    required this.internalReplicationJobs,
-    required this.distribution,
-    required this.status,
-    required this.uuids,
-    required this.list,
-    required this.name,
-    required this.roles,
-    required this.userCtx,
+    this.pread,
+    this.couchReplicator,
+    this.mem3,
+    this.couchLog,
+    this.rexi,
+    this.globalChanges,
+    this.uptime,
+    this.memory,
+    this.runQueue,
+    this.etsTableCount,
+    this.contextSwitches,
+    this.reductions,
+    this.garbageCollectionCount,
+    this.wordsReclaimed,
+    this.ioInput,
+    this.ioOutput,
+    this.osProcCount,
+    this.staleProcCount,
+    this.processCount,
+    this.processLimit,
+    this.messageQueues,
+    this.internalReplicationJobs,
+    this.distribution,
+    this.status,
+    this.uuids,
+    this.list,
+    this.name,
+    this.roles,
+    this.userCtx,
   });
 
   ServerResponse.from(ApiResponse response)
       : this(
             // [Server.nodeStats] returns JSON with `couchdb` field
             // which type is Map
-            couchDbMessage: response.json['couchdb'] is String
-                ? response.json['couchdb'] as String
-                : null,
-            uuid: response.json['uuid'] as String,
-            vendor: (response.json['vendor'] as Map<String, dynamic>)
-                .map((k, e) => MapEntry<String, String>(k, e as String)),
-            version: response.json['version'] as String,
-            state: response.json['state'] as String,
-            results: (response.json['results'] as List<dynamic>)
-                .map((o) => (o as Map<String, dynamic>)
+            couchDbMessage: response.json['couchdb'] as String?,
+            uuid: response.json['uuid'] as String?,
+            vendor: (response.json['vendor'] as Map<String, dynamic>?)
+                ?.map((k, e) => MapEntry<String, String>(k, e as String)),
+            version: response.json['version'] as String?,
+            state: response.json['state'] as String?,
+            results: (response.json['results'] as List<dynamic>?)
+                ?.map((o) => (o as Map<String, dynamic>)
                     .map((k, e) => MapEntry<String, String>(k, e as String)))
                 .toList(),
-            lastSeq: response.json['last_seq'] as String,
-            allNodes: (response.json['all_nodes'] as List<dynamic>)
-                .map((v) => v as String)
+            lastSeq: response.json['last_seq'] as String?,
+            allNodes: (response.json['all_nodes'] as List<dynamic>?)
+                ?.map((v) => v as String)
                 .toList(),
-            clusterNodes: (response.json['cluster_nodes'] as List<dynamic>)
-                .map((v) => v as String)
+            clusterNodes: (response.json['cluster_nodes'] as List<dynamic>?)
+                ?.map((v) => v as String)
                 .toList(),
-            history: (response.json['results'] as List<dynamic>)
-                .map((o) => o as Map<String, dynamic>)
+            history: (response.json['results'] as List<dynamic>?)
+                ?.map((o) => o as Map<String, dynamic>)
                 .toList(),
-            ok: response.json['ok'] as bool,
+            ok: response.json['ok'] as bool?,
             replicationIdVersion:
-                response.json['replication_id_version'] as int,
-            sessionId: response.json['session_id'] as String,
-            sourceLastSeq: response.json['source_last_seq'] as int,
-            offset: response.json['offset'] as int,
-            totalRows: response.json['total_rows'] as int,
-            id: response.json['id'] as String,
-            database: response.json['database'] as String,
-            docId: response.json['doc_id'] as String,
-            pid: response.json['pid'] as String,
-            node: response.json['node'] as String,
-            source: response.json['source'] as String,
-            target: response.json['target'] as String,
-            startTime: response.json['start_time'] as String,
-            lastUpdate: response.json['last_update'] as String,
+                response.json['replication_id_version'] as int?,
+            sessionId: response.json['session_id'] as String?,
+            sourceLastSeq: response.json['source_last_seq'] as int?,
+            offset: response.json['offset'] as int?,
+            totalRows: response.json['total_rows'] as int?,
+            id: response.json['id'] as String?,
+            database: response.json['database'] as String?,
+            docId: response.json['doc_id'] as String?,
+            pid: response.json['pid'] as String?,
+            node: response.json['node'] as String?,
+            source: response.json['source'] as String?,
+            target: response.json['target'] as String?,
+            startTime: response.json['start_time'] as String?,
+            lastUpdate: response.json['last_update'] as String?,
             info: response.json['info'] as dynamic,
-            errorCount: response.json['error_count'] as int,
-            fabric: (response.json['fabric'] as Map<String, dynamic>).map((k,
-                    v) =>
-                MapEntry<String, Map<String, Map<String, dynamic>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)))),
-            ddocCache: (response.json['ddoc_cache'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
-            couchDb: response.json['couchdb'] is Map ? (response.json['couchdb'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)) : null,
-            pread: (response.json['pread'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
-            couchReplicator: (response.json['couch_replicator'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
-            mem3: (response.json['mem3'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, Map<String, dynamic>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)))),
-            couchLog: (response.json['couch_log'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, Map<String, dynamic>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)))),
-            rexi: (response.json['rexi'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
-            globalChanges: (response.json['global_changes'] as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
-            uptime: response.json['uptime'] as int,
-            memory: (response.json['memory'] as Map<String, dynamic>).map((k, v) => MapEntry<String, int>(k, v as int)),
-            runQueue: response.json['run_queue'] as int,
-            etsTableCount: response.json['ets_table_count'] as int,
-            contextSwitches: response.json['context_switches'] as int,
-            reductions: response.json['reductions'] as int,
-            garbageCollectionCount: response.json['garbage_collection_count'] as int,
-            wordsReclaimed: response.json['words_reclaimed'] as int,
-            ioInput: response.json['io_input'] as int,
-            ioOutput: response.json['io_output'] as int,
-            osProcCount: response.json['os_proc_count'] as int,
-            staleProcCount: response.json['stale_proc_count'] as int,
-            processCount: response.json['process_count'] as int,
-            processLimit: response.json['process_limit'] as int,
-            messageQueues: response.json['message_queues'] as Map<String, dynamic>,
-            internalReplicationJobs: response.json['internal_replication_jobs'] as int,
-            distribution: response.json['distribution'] as Map<String, dynamic>,
-            status: response.json['status'] as String,
-            uuids: (response.json['uuids'] as List<dynamic>).map((e) => e as String).toList(),
-            list: response.json['list'] as List<dynamic>,
-            name: response.json['name'] as String,
-            roles: (response.json['roles'] as List<dynamic>).map((v) => v as String).toList(),
-            userCtx: response.json['userCtx'] as Map<String, dynamic>);
+            errorCount: response.json['error_count'] as int?,
+            fabric: (response.json['fabric'] as Map<String, dynamic>?)?.map(
+                (k, v) => MapEntry<String, Map<String, Map<String, dynamic>>>(
+                    k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)))),
+            ddocCache: (response.json['ddoc_cache'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            couchDb: (response.json['couchdb'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            pread: (response.json['pread'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            couchReplicator: (response.json['couch_replicator'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            mem3: (response.json['mem3'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, Map<String, dynamic>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)))),
+            couchLog: (response.json['couch_log'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, Map<String, dynamic>>>(k, (v as Map<String, dynamic>).map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)))),
+            rexi: (response.json['rexi'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            globalChanges: (response.json['global_changes'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, Map<String, dynamic>>(k, v as Map<String, dynamic>)),
+            uptime: response.json['uptime'] as int?,
+            memory: (response.json['memory'] as Map<String, dynamic>?)?.map((k, v) => MapEntry<String, int>(k, v as int)),
+            runQueue: response.json['run_queue'] as int?,
+            etsTableCount: response.json['ets_table_count'] as int?,
+            contextSwitches: response.json['context_switches'] as int?,
+            reductions: response.json['reductions'] as int?,
+            garbageCollectionCount: response.json['garbage_collection_count'] as int?,
+            wordsReclaimed: response.json['words_reclaimed'] as int?,
+            ioInput: response.json['io_input'] as int?,
+            ioOutput: response.json['io_output'] as int?,
+            osProcCount: response.json['os_proc_count'] as int?,
+            staleProcCount: response.json['stale_proc_count'] as int?,
+            processCount: response.json['process_count'] as int?,
+            processLimit: response.json['process_limit'] as int?,
+            messageQueues: response.json['message_queues'] as Map<String, dynamic>?,
+            internalReplicationJobs: response.json['internal_replication_jobs'] as int?,
+            distribution: response.json['distribution'] as Map<String, dynamic>?,
+            status: response.json['status'] as String?,
+            uuids: (response.json['uuids'] as List<dynamic>?)?.map((e) => e as String).toList(),
+            list: response.json['list'] as List<dynamic>?,
+            name: response.json['name'] as String?,
+            roles: (response.json['roles'] as List<dynamic>?)?.map((v) => v as String).toList(),
+            userCtx: response.json['userCtx'] as Map<String, dynamic>?);
 
   /// Welcome message from CouchDB
   ///
@@ -150,76 +148,76 @@ class ServerResponse {
   final String? couchDbMessage;
 
   /// UUID of database
-  final String uuid;
+  final String? uuid;
 
   /// Field that contain manufacturer of CouchDB
-  final Map<String, String> vendor;
+  final Map<String, String>? vendor;
 
   /// Version of CouchDB
-  final String version;
+  final String? version;
 
   /// Current state of the node and/or cluster
-  final String state;
+  final String? state;
 
   /// Holds database updates
-  final List<Map<String, String>> results;
+  final List<Map<String, String>>? results;
 
   /// Last sequense of the event
-  final String lastSeq;
+  final String? lastSeq;
 
   /// Holds all nodes of database instance
-  final List<String> allNodes;
+  final List<String>? allNodes;
 
   /// Holds all nodes of database instance
-  final List<String> clusterNodes;
+  final List<String>? clusterNodes;
 
   /// Holds replication history
-  final List<Map<String, dynamic>> history;
+  final List<Map<String, dynamic>>? history;
 
   /// Holds replication status
-  final bool ok;
+  final bool? ok;
 
   /// Holds replication protocol version
-  final int replicationIdVersion;
+  final int? replicationIdVersion;
 
   /// Holds unique session ID
-  final String sessionId;
+  final String? sessionId;
 
   /// Holds last sequence number read from source database
-  final int sourceLastSeq;
+  final int? sourceLastSeq;
 
   /// Holds how many results were skipped in [Server.schedulerJobs]
-  final int offset;
+  final int? offset;
 
   /// Holds total number of replication jobs
-  final int totalRows;
+  final int? totalRows;
 
   /// Holds replication ID
-  final String id;
+  final String? id;
 
   /// Holds replication document database
-  final String database;
+  final String? database;
 
   /// Holds replication document ID
-  final String docId;
+  final String? docId;
 
   /// Holds replication process ID
-  final String pid;
+  final String? pid;
 
   /// Holds cluster node where the job is running
-  final String node;
+  final String? node;
 
   /// Holds replication source
-  final String source;
+  final String? source;
 
   /// Holds replication target
-  final String target;
+  final String? target;
 
   /// Timestamp of when the replication was started
-  final String startTime;
+  final String? startTime;
 
   /// Holds timestamp of last state update
-  final String lastUpdate;
+  final String? lastUpdate;
 
   /// May contain additional information about the state.
   ///
@@ -228,13 +226,13 @@ class ServerResponse {
   final dynamic info;
 
   /// Holds consecutive errors count
-  final int errorCount;
+  final int? errorCount;
 
   /// Holds cluster-related operations
-  final Map<String, Map<String, Map<String, dynamic>>> fabric;
+  final Map<String, Map<String, Map<String, dynamic>>>? fabric;
 
   /// Cache info about design document?
-  final Map<String, Map<String, dynamic>> ddocCache;
+  final Map<String, Map<String, dynamic>>? ddocCache;
 
   /// Primary CouchDB database operations info
   ///
@@ -242,93 +240,93 @@ class ServerResponse {
   final Map<String, Map<String, dynamic>>? couchDb;
 
   /// CouchDB file-related exceptions info
-  final Map<String, Map<String, dynamic>> pread;
+  final Map<String, Map<String, dynamic>>? pread;
 
   /// Replication scheduler and subsystem info
-  final Map<String, Map<String, dynamic>> couchReplicator;
+  final Map<String, Map<String, dynamic>>? couchReplicator;
 
   /// Node membership-related statistics
-  final Map<String, Map<String, Map<String, dynamic>>> mem3;
+  final Map<String, Map<String, Map<String, dynamic>>>? mem3;
 
   /// Logging subsystem info
-  final Map<String, Map<String, Map<String, dynamic>>> couchLog;
+  final Map<String, Map<String, Map<String, dynamic>>>? couchLog;
 
   /// Cluster internal RPC-related statistics
-  final Map<String, Map<String, dynamic>> rexi;
+  final Map<String, Map<String, dynamic>>? rexi;
 
   /// Global changes feed info
-  final Map<String, Map<String, dynamic>> globalChanges;
+  final Map<String, Map<String, dynamic>>? globalChanges;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int uptime;
+  final int? uptime;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final Map<String, int> memory;
+  final Map<String, int>? memory;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int runQueue;
+  final int? runQueue;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int etsTableCount;
+  final int? etsTableCount;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int contextSwitches;
+  final int? contextSwitches;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int reductions;
+  final int? reductions;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int garbageCollectionCount;
+  final int? garbageCollectionCount;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int wordsReclaimed;
+  final int? wordsReclaimed;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int ioInput;
+  final int? ioInput;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int ioOutput;
+  final int? ioOutput;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int osProcCount;
+  final int? osProcCount;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int staleProcCount;
+  final int? staleProcCount;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int processCount;
+  final int? processCount;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int processLimit;
+  final int? processLimit;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final Map<String, dynamic> messageQueues;
+  final Map<String, dynamic>? messageQueues;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final int internalReplicationJobs;
+  final int? internalReplicationJobs;
 
   /// These statistic are generally intended for CouchDB developers only.
-  final Map<String, dynamic> distribution;
+  final Map<String, dynamic>? distribution;
 
   /// Status of current running node
-  final String status;
+  final String? status;
 
   /// List of uuids returned by CouchDB
   ///
   /// Returned by [Server.uuids]
-  final List<String> uuids;
+  final List<String>? uuids;
 
   /// List of some objects (if JSON itself is list)
   ///
   /// Returned by [Server.activeTasks], [Server.allDbs], [Server.dbsInfo]
-  final List<dynamic> list;
+  final List<dynamic>? list;
 
   /// Holds username
-  final String name;
+  final String? name;
 
   /// Holds roles of user in database
-  final List<String> roles;
+  final List<String>? roles;
 
   /// Holds user context for the current user
-  final Map<String, dynamic> userCtx;
+  final Map<String, dynamic>? userCtx;
 }
