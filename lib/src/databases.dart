@@ -6,7 +6,6 @@ import 'interfaces/client_interface.dart';
 import 'interfaces/databases_interface.dart';
 import 'responses/api_response.dart';
 import 'responses/databases_response.dart';
-import 'utils/includer_path.dart';
 
 /// Class that implements methods for interacting with entire database
 /// in CouchDB
@@ -73,8 +72,9 @@ class Databases implements DatabasesInterface {
 
   @override
   Future<DatabasesResponse> createDocIn(String dbName, Map<String, dynamic> doc,
-      {required String batch, Map<String, String> headers = const {}}) async {
-    final path = '$dbName${includeNonNullParam('?batch', batch)}';
+      {String? batch, Map<String, String> headers = const {}}) async {
+    var path = '$dbName?';
+    if (batch != null) path += 'batch=$batch';
 
     final result = await _client.post(path, body: doc, reqHeaders: headers);
     return DatabasesResponse.from(result);
@@ -253,6 +253,7 @@ class Databases implements DatabasesInterface {
     }
 
     final result = await _client.post('$dbName/_find', body: body);
+    print(result);
     return DatabasesResponse.from(result);
   }
 

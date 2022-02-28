@@ -94,10 +94,10 @@ class Documents implements DocumentsInterface {
     String? batch,
     bool newEdits = true,
   }) async {
-    final path = '$dbName/$docId?'
-        'new_edits=$newEdits'
-        '&rev${rev ?? ''}'
-        '&batch=${batch ?? ''}';
+    var path = '$dbName/$docId?'
+        'new_edits=$newEdits&';
+    if (rev != null) path += 'rev=$rev&';
+    if (batch != null) path += 'batch=$batch';
 
     final result = await _client.put(path, reqHeaders: headers, body: body);
     return DocumentsResponse.from(result);
