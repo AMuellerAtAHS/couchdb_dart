@@ -10,6 +10,19 @@ abstract class DatabasesInterface {
   Future<DatabasesResponse> query(
       String dbName, String dbDoc, String dbView, List<String> keys);
 
+  /// Get the data by view, with skip and limit for pagination
+  ///
+  /// Returns JSON like:
+  /// ```json
+  /// {
+  ///   "totalRows":1, "offset":0, "rows":
+  ///   [
+  ///     "_id":123456789, "_rev":987654321, "value":null,
+  ///   ]
+  /// }
+  Future<DatabasesResponse> queryGet(String dbName, String dbDoc, String dbView,
+      {int skip = 0, int limit = 20, bool reduce = false});
+
   /// Gets information about the specified database
   ///
   /// Returns JSON like:

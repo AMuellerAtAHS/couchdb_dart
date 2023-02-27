@@ -1,5 +1,6 @@
 ## Unreleased
 - Delete deprecated classes.
+- Add `queryGet` method to use views
 
 ## [0.7.0]- 2020-06-21
 ### Added 

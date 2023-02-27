@@ -41,6 +41,15 @@ class Databases implements DatabasesInterface {
   }
 
   @override
+  Future<DatabasesResponse> queryGet(String dbName, String dbDoc, String dbView,
+      {int skip = 0, int limit = 20, bool reduce = false}) async {
+    var result = await _client.get(
+      '$dbName/_design/$dbDoc/_view/$dbView?reduce=$reduce&skip=$skip&limit=$limit',
+    );
+    return DatabasesResponse.from(result);
+  }
+
+  @override
   Future<DatabasesResponse> dbInfo(String dbName) async {
     var result = await _client.get(dbName);
     return DatabasesResponse.from(result);
